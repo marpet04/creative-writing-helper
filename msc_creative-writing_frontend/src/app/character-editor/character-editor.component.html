@@ -1,0 +1,25 @@
+<form #characterForm="ngForm" (ngSubmit)="onSubmit()">
+<mat-card class="character-card">
+    <mat-card-header>
+      <mat-card-title>Új karakter létrehozása</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field appearance="outline">
+            <input matInput id=name name=name placeholder="Név" [(ngModel)]="character.name" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input matInput id=profession name=profession [(ngModel)]="character.profession" placeholder="Foglalkozás">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input matInput id=birthDate name=birthDate [(ngModel)]="character.birthDate" placeholder="Születési dátum (YYYY-MM-DD)">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <textarea matInput id=description name=description [(ngModel)]="character.description" placeholder="Egyedi leírás"></textarea>
+        </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type="submit">Mentés</button>
+      <button mat-button>Mégse</button>
+    </mat-card-actions>
+  </mat-card>
+  </form>

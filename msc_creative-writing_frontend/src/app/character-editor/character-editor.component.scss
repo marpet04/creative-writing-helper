@@ -1,0 +1,16 @@
+.character-card {
+    max-width: 400px;
+    margin: auto;
+    position: relative;
+    top: 0; bottom: 0; left: 0; right: 0;
+    transform: translate(0%, 50%);
+    -ms-transform: translateY(50%);
+    -webkit-transform: translateY(50%);
+    -moz-transform: translateY(50%);
+    -o-transform: translateY(50%);
+  }
+
+.character-card mat-form-field {
+    max-width: 400px;
+    min-width: 300px;
+}
