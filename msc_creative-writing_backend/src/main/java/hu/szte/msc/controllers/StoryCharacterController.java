@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.szte.msc.entities.StoryCharacter;
@@ -17,6 +18,7 @@ import hu.szte.msc.services.StoryCharacterService;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/api/character")
 public class StoryCharacterController {
     
     @Autowired
@@ -27,14 +29,9 @@ public class StoryCharacterController {
         return new ResponseEntity<>(characterService.createCharacter(character), HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAllCharacters")
     public ResponseEntity<List<StoryCharacter>> getAllCharacters() throws InterruptedException, ExecutionException {
         return new ResponseEntity<>(characterService.getAllCharacters(), HttpStatus.OK);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return new ResponseEntity<>("The endpoint is working", HttpStatus.OK);
     }
 
 }
