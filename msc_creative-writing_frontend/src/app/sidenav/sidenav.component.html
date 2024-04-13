@@ -1,17 +1,40 @@
-<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed':''">
-    <div class="logo-container">
-        <button class="logo" (click)="toggleCollapse()">P</button>
-        <div class="logo-text" *ngIf="collapsed">Project</div>
-        <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
-            <mat-icon>close</mat-icon>
-        </button>
-    </div>
-    <ul class="sidenav-nav">
-        <li class="sidenav-nav-item" *ngFor="let data of navData">
-            <a class="sidenav-nav-link" [routerLink]="[data.routelink]">
-                <mat-icon class="sidenav-link-icon">{{data.icon}}</mat-icon>
-                <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
-            </a>
-        </li>
-    </ul>
-</div>
+<mat-toolbar class="toolbar">
+    <button mat-icon-button (click)="switch()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>CWAT</span>
+    <span class="example-spacer"></span>
+    <span>Hello there!</span>
+  </mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav opened mode="side" [style.width]="sidenavWidth">
+        <mat-nav-list>
+            <div *ngFor="let item of menuItems">
+                <div *ngIf="item.subMenu">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <a mat-list-item routerLink="/nav/{{item.route}}">
+                                    <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                                    <span matListItemTitle>{{item.label}}</span> 
+                                </a>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                            <a mat-list-item *ngFor="let subitem of item.subMenu" routerLink="/nav/{{subitem.route}}">
+                                <mat-icon matListItemIcon>{{subitem.icon}}</mat-icon>
+                                <span matListItemTitle>{{subitem.label}}</span> 
+                            </a>
+                    </mat-expansion-panel>
+                </div>
+                <a mat-list-item *ngIf="!item.subMenu" routerLink="/nav/{{item.route}}">
+                <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+                <span matListItemTitle>{{item.label}}</span> 
+                </a>
+            </div>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -31,6 +31,11 @@ public class StoryCharacterRepository {
         return character;
     }
 
+    public StoryCharacter updateCharacter(StoryCharacter character) {
+        ApiFuture<WriteResult> future = COLL_REF.document(character.getDocID()).set(character);
+        return character;
+    }
+
     public List<StoryCharacter> getAllCharacters() throws InterruptedException, ExecutionException {
         ApiFuture<QuerySnapshot> future = COLL_REF.get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();

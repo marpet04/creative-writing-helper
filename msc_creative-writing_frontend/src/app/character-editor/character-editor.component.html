@@ -1,5 +1,5 @@
-<form #characterForm="ngForm" (ngSubmit)="onSubmit()">
 <mat-card class="character-card">
+    <form #characterForm="ngForm">
     <mat-card-header>
       <mat-card-title>Új karakter létrehozása</mat-card-title>
     </mat-card-header>
@@ -18,8 +18,8 @@
         </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button type="submit">Mentés</button>
-      <button mat-button>Mégse</button>
+      <button mat-button (click)="onSubmit()">Mentés</button>
+      <button mat-button (click)="closeDialog()">Mégse</button>
     </mat-card-actions>
-  </mat-card>
-  </form>
+    </form>
+</mat-card>

@@ -1,0 +1,36 @@
+
+<mat-toolbar class="toolbar">
+        <span>CWAT</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button [routerLink]="['/starter']">
+          <mat-icon>home</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="['/info']">
+          <mat-icon>info</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="['/demo']">
+            <mat-icon>toys</mat-icon>
+        </button>
+</mat-toolbar>
+<div class="login">
+    <mat-card>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <h2>Bejelentkezés</h2>
+            <mat-form-field>
+                <mat-label for="email">Email: </mat-label><input matInput type="text" formControlName="email" /> 
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="password">Jelszó: </mat-label><input matInput type="password" formControlName="password" />
+            </mat-form-field>
+            <span>
+                <span><button class="action-button" mat-raised-button type="submit">Bejelentkezés</button></span>
+                <span><button class="action-button" mat-raised-button [routerLink]="['/starter']">Vissza a főoldalra</button></span>
+            </span>
+            <h2 style="padding-top: 10px; padding-bottom: 0px;">Nincs fiókod? Regisztrálj!</h2>
+            <span>
+                <span><button class="action-button" mat-raised-button [routerLink]="['/registration']">Regisztráció</button></span>
+            </span>
+        </form>
+    </mat-card>
+</div>
+

@@ -1,0 +1,45 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+
+span {
+    padding: 5px 5px 5px 5px;
+}
+
+mat-form-field {
+    min-width: 120%;
+    align-self: center;
+}
+
+div {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 50vh;
+}
+
+mat-card {
+    min-height: 400px;
+    min-width: 600px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: #fbf6f0;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+.toolbar {
+    background-color: #610216;
+}

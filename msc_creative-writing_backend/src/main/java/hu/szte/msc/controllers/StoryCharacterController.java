@@ -29,6 +29,11 @@ public class StoryCharacterController {
         return new ResponseEntity<>(characterService.createCharacter(character), HttpStatus.OK);
     }
 
+    @PostMapping("/updateCharacter")
+    public ResponseEntity<StoryCharacter> updateCharacter(@RequestBody StoryCharacter character) {
+        return new ResponseEntity<>(characterService.updateCharacter(character), HttpStatus.OK);
+    }
+
     @GetMapping("/getAllCharacters")
     public ResponseEntity<List<StoryCharacter>> getAllCharacters() throws InterruptedException, ExecutionException {
         return new ResponseEntity<>(characterService.getAllCharacters(), HttpStatus.OK);

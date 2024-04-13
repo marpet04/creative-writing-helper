@@ -1,0 +1,19 @@
+<div>
+    <mat-toolbar class="toolbar">
+        <span>CWAT</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button [routerLink]="['/login']">
+          <mat-icon>person_pin</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="['/info']">
+          <mat-icon>info</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="['/demo']">
+            <mat-icon>toys</mat-icon>
+        </button>
+      </mat-toolbar>
+    <div style="display: flex; align-items: top; justify-content: top; height: 100vh;">
+        <app-img-slider [indicatorVisible]="true" [autoPlay]="true" [slides]="slides"></app-img-slider>
+    </div>
+    <h1 style="display: flex; align-items: top; justify-content: top; height: 100vh;">Üdv az oldalon!</h1>
+</div>

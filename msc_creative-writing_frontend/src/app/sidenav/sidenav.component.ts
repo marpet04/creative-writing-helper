@@ -1,44 +1,58 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { MatIconModule, MatIconRegistry} from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-import { SIDENAVDATA } from './sidenav-data';
+import { CommonModule } from '@angular/common';
+import { Component, Input, Signal, computed, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 
-export interface SideNavToggle {
-  screenWidth: number;
-  collapsed: boolean;
+export type MenuItem = {
+  icon: string;
+  label: string;
+  route? : any;
+  subMenu? : MenuItem[];
 }
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  styleUrl: './sidenav.component.scss'
 })
-export class SidenavComponent implements OnInit{
-  icons = ['home', 'mail', 'settings', 'add'];
-  @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
+export class SidenavComponent {
+  menuItems : MenuItem[] = [
+    {
+      icon: 'book',
+      label: 'Írótér',
+      route: 'login'
+    },
+    {
+      icon: 'dashboard',
+      label: 'Tábla',
+      route: 'dashboard'
+    },
+    {
+      icon: 'person',
+      label: 'Karakterek',
+      route: 'characters',
+      subMenu: [
+        {
+          icon: 'edit',
+          label: 'Karakter tervező',
+          route: 'character-editor'
+        }
+      ]
+    }
+
+  ];
+
   collapsed = false;
-  screenWidth = 0;
 
-  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    this.icons.forEach(icon => {
-      const iconName = icon === 'add' ? 'add_circle' : icon;
-      const iconPath = `assets/icons/${iconName}.svg`;
-      this.matIconRegistry.addSvgIcon(icon, this.domSanitizer.bypassSecurityTrustResourceUrl(iconPath));
-    });
-  }
-  ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
-  }
+  sidenavWidth : any;
 
-  navData = SIDENAVDATA;
-
-  toggleCollapse(): void {
+  switch() {
     this.collapsed = !this.collapsed;
-    this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
+    console.log(this.collapsed);
+    this.sidenavWidth = this.collapsed ? '90px' : '250px';
+    console.log(this.sidenavWidth);
   }
 
-  closeSidenav() {
-    this.collapsed = false;
-    this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
-  }
 }

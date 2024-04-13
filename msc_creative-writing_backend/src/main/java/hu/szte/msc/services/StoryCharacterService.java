@@ -19,6 +19,10 @@ public class StoryCharacterService {
         return characterRepository.createCharacter(character);
     }
 
+    public StoryCharacter updateCharacter(StoryCharacter character) {
+        return characterRepository.updateCharacter(character);
+    }
+
     public List<StoryCharacter> getAllCharacters() throws InterruptedException, ExecutionException {
         return characterRepository.getAllCharacters();
     }
