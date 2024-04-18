@@ -14,12 +14,14 @@ export class CharactersComponent implements OnInit, OnChanges{
 
   constructor(private storyCharacterService: StoryCharacterService, public dialog: MatDialog) {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.storyCharacterService.getAllCharacters().subscribe(characters => {
-      this.characters = characters;
-    });
+    this.refresh();
   }
 
   ngOnInit(): void {
+    this.refresh();
+  }
+
+  refresh(): void {
     this.storyCharacterService.getAllCharacters().subscribe(characters => {
       this.characters = characters;
       console.log(this.characters);
@@ -32,6 +34,14 @@ export class CharactersComponent implements OnInit, OnChanges{
         info: characterData,
       },
     });
-    console.log(characterData)
+    console.log(characterData);
+    this.refresh();
+  }
+
+  deleteCharacter(docID:string) {
+    console.log(docID);
+    this.storyCharacterService.deleteCharacter(docID).subscribe(t => {
+      console.log(t);
+    });
   }
 }

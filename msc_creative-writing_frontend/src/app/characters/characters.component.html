@@ -1,5 +1,5 @@
 <div class="card">
-    <mat-card *ngFor="let character of characters" (click)="openEditor(character)">
+    <mat-card *ngFor="let character of characters">
         <mat-card-header>
           <mat-card-title>{{character.name}}</mat-card-title>
         </mat-card-header>
@@ -8,5 +8,13 @@
             <div *ngIf="character.profession">Foglalkozás: {{character.profession}}</div>
             <div *ngIf="character.description">Részletes leírás: {{character.description}}</div>
         </mat-card-content>
+        <mat-card-actions>
+          <button mat-button (click)="openEditor(character)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-button (click)="deleteCharacter(character.docID!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
       </mat-card>
 </div>

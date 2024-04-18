@@ -18,10 +18,18 @@ import { RegistrationComponent } from './registration/registration.component';
 import { StarterComponent } from './starter/starter.component';
 import { ImgSliderComponent } from './img-slider/img-slider.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { SidenavComponent } from './sidenav/sidenav.component';
 import { SidenavModule } from './sidenav/sidenav.module';
 import { CharactersComponent } from './characters/characters.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { CharacterConnectionsComponent } from './character-connections/character-connections.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatTableModule} from '@angular/material/table';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { NgxEditorModule } from 'ngx-editor';
+import { MatSelectModule } from '@angular/material/select';
+import { StoryEditorComponent } from './story-editor/story-editor.component';
+import { ChaptersComponent } from './chapters/chapters.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +39,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     LoginComponent,
     RegistrationComponent,
     StarterComponent,
-    CharactersComponent
+    CharactersComponent,
+    CharacterConnectionsComponent,
+    StoryEditorComponent,
+    ChaptersComponent
   ],
   imports: [
     BrowserModule,
@@ -48,8 +59,12 @@ import {MatDialogModule} from '@angular/material/dialog';
     ImgSliderComponent,
     MatToolbarModule,
     SidenavModule,
-    MatDialogModule
-    
+    MatDialogModule,
+    MatSelectModule,
+    MatTooltipModule,
+    DragDropModule,
+    MatTableModule,
+    ColorPickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

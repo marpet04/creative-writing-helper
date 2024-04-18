@@ -20,14 +20,21 @@ export type MenuItem = {
 export class SidenavComponent {
   menuItems : MenuItem[] = [
     {
-      icon: 'book',
-      label: 'Írótér',
-      route: 'login'
+      icon: 'dashboard',
+      label: 'Történetek',
+      route: 'dashboard'
     },
     {
-      icon: 'dashboard',
-      label: 'Tábla',
-      route: 'dashboard'
+      icon: 'book',
+      label: 'Fejezetek',
+      route: 'chapters',
+      subMenu: [
+        {
+          icon: 'edit',
+          label: 'Dokumentum készítő',
+          route: 'doc-editor'
+        }
+      ]
     },
     {
       icon: 'person',
@@ -38,8 +45,18 @@ export class SidenavComponent {
           icon: 'edit',
           label: 'Karakter tervező',
           route: 'character-editor'
+        },
+        {
+          icon: 'group_work',
+          label: 'Karakterkapcsolatok',
+          route: 'character-connections'
         }
       ]
+    },
+    {
+      icon: 'perm_media',
+      label: 'Galéria',
+      route: 'gallery'
     }
 
   ];

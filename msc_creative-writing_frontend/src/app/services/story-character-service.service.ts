@@ -21,4 +21,8 @@ export class StoryCharacterService {
   getAllCharacters(): Observable<any> {
     return this.http.get('http://localhost:8080/api/character/getAllCharacters');
   }
+
+  deleteCharacter(id: string): Observable<any> {
+    return this.http.delete('http://localhost:8080/api/character/deleteCharacter/' + id, {responseType: 'text'});
+  }
 }

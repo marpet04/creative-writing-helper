@@ -1,4 +1,4 @@
-.character-card {
+.story-card {
     max-width: 400px;
     margin-top: auto;
     margin-right: 0;
@@ -9,14 +9,7 @@
     text-align: center;
   }
 
-.character-card mat-form-field {
+.story-card mat-form-field {
     max-width: 400px;
     min-width: 300px;
-}
-
-#slides {
-    margin-top: auto;
-    margin-right: auto;
-    margin-left: 0;
-    margin-bottom: auto;
 }
