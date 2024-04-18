@@ -19,8 +19,20 @@ public class StoryService {
         return storyRepository.createStory(story);
     }
 
+    public Story updateStory(Story story) {
+        return storyRepository.updateStory(story);
+    }
+
     public List<Story> getAllStories() throws InterruptedException, ExecutionException {
         return storyRepository.getAllStories();
+    }
+
+    public Story getStory(String id) throws InterruptedException, ExecutionException {
+        return storyRepository.getStory(id);
+    }
+
+    public String deleteStory(String docID) throws InterruptedException, ExecutionException {
+        return storyRepository.deleteStory(docID);
     }
     
 }

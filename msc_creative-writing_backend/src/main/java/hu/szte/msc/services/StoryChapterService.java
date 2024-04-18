@@ -19,8 +19,20 @@ public class StoryChapterService {
         return chapterRepository.createChapter(chapter);
     }
 
+    public StoryChapter updateChapter(StoryChapter chapter) {
+        return chapterRepository.updateChapter(chapter);
+    }
+
     public List<StoryChapter> getAllChapters() throws InterruptedException, ExecutionException {
         return chapterRepository.getAllChapters();
+    }
+
+    public StoryChapter getChapter(String id) throws InterruptedException, ExecutionException {
+        return chapterRepository.getChapter(id);
+    }
+
+    public String deleteChapter(String docID) throws InterruptedException, ExecutionException {
+        return chapterRepository.deleteChapter(docID);
     }
     
 }

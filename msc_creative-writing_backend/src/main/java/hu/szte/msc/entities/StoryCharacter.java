@@ -3,9 +3,12 @@ package hu.szte.msc.entities;
 public class StoryCharacter {
     private String docID;
     private String name;
+    private String storyID;
+    private String chapterID;
     private String profession;
     private String birthDate;
     private String description;
+    private String author;
 
     public String getDocID() {
         return docID;
@@ -47,16 +50,46 @@ public class StoryCharacter {
         this.profession = profession;
     }
 
-    public StoryCharacter(String docID, String name, String profession, String birthDate, String description) {
+    public String getStoryID() {
+        return storyID;
+    }
+
+    public void setStoryID(String storyID) {
+        this.storyID = storyID;
+    }
+
+    public String getChapterID() {
+        return chapterID;
+    }
+
+    public void setChapterID(String chapterID) {
+        this.chapterID = chapterID;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public StoryCharacter(String docID, String name, String storyID, String chapterID, String profession,
+            String birthDate, String description, String author) {
         this.docID = docID;
         this.name = name;
+        this.storyID = storyID;
+        this.chapterID = chapterID;
         this.profession = profession;
         this.birthDate = birthDate;
         this.description = description;
+        this.author = author;
     }
 
     public StoryCharacter() {
     }
+
+    
 
     
 

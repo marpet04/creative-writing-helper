@@ -3,6 +3,7 @@ package hu.szte.msc.entities;
 public class StoryEvent {
     private String docID;
     private String chapterID;
+    private String storyID;
     private String title;
     private String note;
     
@@ -30,14 +31,22 @@ public class StoryEvent {
     public void setNote(String note) {
         this.note = note;
     }
+    public String getStoryID() {
+        return storyID;
+    }
+    public void setStoryID(String storyID) {
+        this.storyID = storyID;
+    }
     public StoryEvent() {
     }
-    public StoryEvent(String docID, String chapterID, String title, String note) {
+    public StoryEvent(String docID, String chapterID, String storyID, String title, String note) {
         this.docID = docID;
         this.chapterID = chapterID;
+        this.storyID = storyID;
         this.title = title;
         this.note = note;
     }
+    
 
     
 

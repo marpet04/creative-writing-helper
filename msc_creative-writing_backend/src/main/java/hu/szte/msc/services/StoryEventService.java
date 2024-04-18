@@ -19,8 +19,20 @@ public class StoryEventService {
         return storyEventRepository.createStoryEvent(event);
     }
 
+    public StoryEvent updateStoryEvent(StoryEvent event) {
+        return storyEventRepository.updateStoryEvent(event);
+    }
+
     public List<StoryEvent> getAllEvents() throws InterruptedException, ExecutionException {
         return storyEventRepository.getAllEvents();
+    }
+
+    public StoryEvent getStoryEvent(String id) throws InterruptedException, ExecutionException {
+        return storyEventRepository.getStoryEvent(id);
+    }
+
+    public String deleteStoryEvent(String docID) throws InterruptedException, ExecutionException {
+        return storyEventRepository.deleteStoryEvent(docID);
     }
     
 }

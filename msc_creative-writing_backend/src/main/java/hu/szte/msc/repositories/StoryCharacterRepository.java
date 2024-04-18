@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -44,6 +46,24 @@ public class StoryCharacterRepository {
             listOfCharacters.add(document.toObject(StoryCharacter.class));
         }
         return listOfCharacters;
+    }
+
+    public StoryCharacter getCharacter(String id) throws InterruptedException, ExecutionException {
+        DocumentReference ref = COLL_REF.document(id);
+        DocumentSnapshot document = ref.get().get();
+        StoryCharacter character = document.toObject(StoryCharacter.class);
+        return character;
+    }
+
+    public String deleteCharacter(String docID) {
+        ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
+        try {
+            future.get();
+            return "Character successfully deleted!";
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;  
     }
     
 }

@@ -5,6 +5,8 @@ public class StoryChapter {
     private String storyID;
     private String title;
     private String body;
+
+    
     public String getDocID() {
         return docID;
     }

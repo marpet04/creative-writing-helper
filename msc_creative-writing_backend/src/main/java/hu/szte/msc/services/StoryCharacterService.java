@@ -26,5 +26,13 @@ public class StoryCharacterService {
     public List<StoryCharacter> getAllCharacters() throws InterruptedException, ExecutionException {
         return characterRepository.getAllCharacters();
     }
+
+    public StoryCharacter getCharacter(String id) throws InterruptedException, ExecutionException {
+        return characterRepository.getCharacter(id);
+    }
+
+    public String deleteCharacter(String docID) throws InterruptedException, ExecutionException {
+        return characterRepository.deleteCharacter(docID);
+    }
     
 }

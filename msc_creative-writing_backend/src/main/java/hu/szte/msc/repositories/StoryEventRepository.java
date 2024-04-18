@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -31,6 +33,11 @@ public class StoryEventRepository {
         return event;
     }
 
+    public StoryEvent updateStoryEvent(StoryEvent event) {
+        ApiFuture<WriteResult> future = COLL_REF.document(event.getDocID()).set(event);
+        return event;
+    }
+
     public List<StoryEvent> getAllEvents() throws InterruptedException, ExecutionException {
         ApiFuture<QuerySnapshot> future = COLL_REF.get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -39,6 +46,24 @@ public class StoryEventRepository {
             listOfEvents.add(document.toObject(StoryEvent.class));
         }
         return listOfEvents;
+    }
+
+    public StoryEvent getStoryEvent(String id) throws InterruptedException, ExecutionException {
+        DocumentReference ref = COLL_REF.document(id);
+        DocumentSnapshot document = ref.get().get();
+        StoryEvent event = document.toObject(StoryEvent.class);
+        return event;
+    }
+
+    public String deleteStoryEvent(String docID) {
+        ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
+        try {
+            future.get();
+            return "Event successfully deleted!";
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;  
     }
     
 }

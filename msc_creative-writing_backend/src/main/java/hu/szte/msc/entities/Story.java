@@ -5,6 +5,7 @@ public class Story {
     private String title;
     private String description;
     private String author;
+    private Gallery gallery;
 
     public String getDocID() {
         return docID;
@@ -41,11 +42,12 @@ public class Story {
     public Story() {
     }
 
-    public Story(String docID, String title, String description, String author) {
+    public Story(String docID, String title, String description, String author, Gallery gallery) {
         this.docID = docID;
         this.title = title;
         this.description = description;
         this.author = author;
+        this.gallery = gallery;
     }
 
     

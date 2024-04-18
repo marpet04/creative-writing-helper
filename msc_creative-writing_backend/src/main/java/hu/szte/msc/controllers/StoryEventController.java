@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.szte.msc.entities.StoryEvent;
@@ -29,9 +32,24 @@ public class StoryEventController {
         return new ResponseEntity<>(eventService.createStoryEvent(event), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllEvents")
+    @PostMapping("/updateStoryEvent")
+    public ResponseEntity<StoryEvent> updateStoryEvent(@RequestBody StoryEvent storyEvent) {
+        return new ResponseEntity<>(eventService.updateStoryEvent(storyEvent), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllStoryEvents")
     public ResponseEntity<List<StoryEvent>> getAllEvents() throws InterruptedException, ExecutionException {
         return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getStoryEvent")
+    public ResponseEntity<StoryEvent> getEvent(@RequestParam String id) throws InterruptedException, ExecutionException {
+        return new ResponseEntity<>(eventService.getStoryEvent(id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteStoryEvent/{id}")
+    public ResponseEntity<String> deleteChapter(@PathVariable("id") String id) throws InterruptedException, ExecutionException {
+        return new ResponseEntity<>(eventService.deleteStoryEvent(id), HttpStatus.OK);
     }
 
 }
