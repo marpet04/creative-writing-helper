@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild, asNativeElements } from '@angular/core';
 import { StoryCharacter } from '../models/StoryCharacter';
 import { StoryCharacterService } from '../services/story-character-service.service';
 import { MatDialog } from '@angular/material/dialog';
-import 'leader-line';
-declare let LeaderLine: any;
+import * as LeaderLine from 'leader-line-new';
 
 export type Color = {
   color: string,
@@ -16,6 +15,9 @@ export type Color = {
   styleUrl: './character-connections.component.scss'
 })
 export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, OnInit{
+  @ViewChild('startingElement', { read: ElementRef }) startingElement!: ElementRef;
+  @ViewChild('endingElement', { read: ElementRef }) endingElement!: ElementRef;
+
   @ViewChild('canvas', {static: true}) myCanvas!: ElementRef;
 
   @ViewChild('canvasEl') canvas!: ElementRef<HTMLCanvasElement>;
@@ -25,6 +27,11 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
   startY!: number;
   offsetX!: number;
   offsetY!: number;
+
+  temp_start: string = "";
+  temp_end: string = "";
+
+  connect_btn: boolean = false;
 
   characters: Array<StoryCharacter> = [];
   colors: Color[] = [
@@ -60,8 +67,52 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
     });
   }
 
-  drawLine(context: CanvasRenderingContext2D, ) {
+  drawLineOnClick(param: string) {
+    if (this.connect_btn) {
+      if (this.temp_start == "") {
+        this.temp_start = param;
+        console.log(this.temp_start);
+      } else if (this.temp_end == "") {
+        this.temp_end = param;
+        console.log(this.temp_end);
+      } else {
+        this.drawLine(this.temp_start, this.temp_end);
+        this.temp_start = "";
+        this.temp_end = "";
+      }
+    }
+  }
 
+  drawLine(start: string, end: string) {
+    let line = new LeaderLine(document.getElementById(start) as Element, document.getElementById(end) as Element);
+    line.show();
+    line.position();
+    console.log(line);
+    //console.log(document.getElementById(start)!.getBoundingClientRect());
+    document.getElementById(start)!.addEventListener('mousemove', () => {
+      line.position();
+    }, false);
+    document.getElementById(end)!.addEventListener('mousedown', () => {
+      line.show();
+      line.position();
+    }, false);
+    document.getElementById(start)!.addEventListener('click', () => {
+      line.position();
+    }, false);
+    
+
+    document.querySelectorAll("svg").forEach(function(elem) {
+      console.log(elem);
+      if(elem.getAttribute("data-line_id") === '2') {
+             console.log("I'm here, sucker");
+      }
+    });
+
+
+
+    //document.getElementById('2')!.addEventListener('click', () => {
+    //  line.remove();
+    //}, false);
   }
 
   addRow() {
@@ -69,9 +120,24 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
 
   }
 
+
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d') ?? new CanvasRenderingContext2D();
     this.drawShape(100, 100, 50, 'red'); // Rajzolj egy alakzatot a canvas-ra
+    let rectX = 200
+    let rectY = 200
+    let gap= 200
+    let rectHeight = 150
+    this.storyCharacterService.getAllCharacters().subscribe(characters => {
+      this.characters = characters;
+      console.log(this.characters);
+      this.characters.forEach(character =>{
+
+            this.drawSquareWithText(character.name, 200, rectY, 150, 'blue');
+            rectY += gap
+  
+      })
+    });
   }
 
   drawShape(x: number, y: number, radius: number, color: string) {
@@ -109,5 +175,15 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
 
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+  }
+
+  drawSquareWithText(text: string, x: number, y: number, size: number, color: string) {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(x - size / 2, y - size / 2, size, size); // A négyzet közepének koordinátái és mérete
+    this.ctx.fillStyle = 'white';
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
+    this.ctx.font = '20px Arial';
+    this.ctx.fillText(text, x, y); // A szöveg középpontjának koordinátái
   }
 }

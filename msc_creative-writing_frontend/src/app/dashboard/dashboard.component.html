@@ -14,12 +14,15 @@
           <button mat-button (click)="deleteStory(story.docID!)">
             <mat-icon>delete</mat-icon>
           </button>
+          <button class="select" mat-button (click)="selectStory(story)">
+            Történet kiválasztása
+          </button>
         </mat-card-actions>
       </mat-card>
       <mat-card (click)="openEditor(null)">
         <div class="addcard">
           <mat-icon>add_box</mat-icon>
-      </div>
+        </div>
       </mat-card>
       
 </div>

@@ -14,7 +14,10 @@ export class StoryEditorComponent implements OnInit, OnChanges{
     title: '',
     description: '',
     docID: '',
-    author: ''
+    author: '',
+    gallery: {
+      images: []
+    }
   }
 
   private dialogRef;
@@ -52,11 +55,11 @@ export class StoryEditorComponent implements OnInit, OnChanges{
           }
         });
       }
-      this.dialogRef?.close([]);
+      this.dialogRef?.close();
     }
 
     closeDialog() {
-      this.dialogRef?.close([]);
+      this.dialogRef?.close();
       this.router.navigateByUrl("/nav/dashboard");
     }
 }

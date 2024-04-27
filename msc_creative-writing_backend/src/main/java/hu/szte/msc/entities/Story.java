@@ -50,6 +50,16 @@ public class Story {
         this.gallery = gallery;
     }
 
+    public Gallery getGallery() {
+        return gallery;
+    }
+
+    public void setGallery(Gallery gallery) {
+        this.gallery = gallery;
+    }
+
+    
+
     
 
     

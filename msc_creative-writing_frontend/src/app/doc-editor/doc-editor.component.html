@@ -1,6 +1,11 @@
-<form [formGroup]="form">
+<form [formGroup]="editorForm" (ngSubmit)="save()">
+    <div>
+      <input matInput id="title" name="title" placeholder="Fejezet címe" formControlName="title">
+    </div>
     <div class="NgxEditor__Wrapper">
       <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
-      <ngx-editor [editor]="editor" formControlName="editorContent"> </ngx-editor>
+      <ngx-editor [editor]="editor" formControlName="editorContent" placeholder="Ide írj"> </ngx-editor>
     </div>
+    <button mat-button type="submit" [disabled]="!editorForm.valid">Mentés</button>
+    <button mat-button (click)="closeEditor()">Vissza a fejezetekhez</button>
 </form>

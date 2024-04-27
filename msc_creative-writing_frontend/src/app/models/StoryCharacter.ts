@@ -4,5 +4,6 @@ export interface StoryCharacter {
     profession: string,
     birthDate: string,
     description: string,
-    chapterID: string
+    chapterID: string,
+    storyID: string | undefined
 }

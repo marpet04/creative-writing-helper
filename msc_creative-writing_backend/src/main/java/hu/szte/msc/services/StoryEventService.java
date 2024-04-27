@@ -23,8 +23,8 @@ public class StoryEventService {
         return storyEventRepository.updateStoryEvent(event);
     }
 
-    public List<StoryEvent> getAllEvents() throws InterruptedException, ExecutionException {
-        return storyEventRepository.getAllEvents();
+    public List<StoryEvent> getAllEvents(String storyID) throws InterruptedException, ExecutionException {
+        return storyEventRepository.getAllEvents(storyID);
     }
 
     public StoryEvent getStoryEvent(String id) throws InterruptedException, ExecutionException {

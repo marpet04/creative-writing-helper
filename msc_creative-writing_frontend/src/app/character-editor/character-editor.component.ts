@@ -19,28 +19,11 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
     birthDate: '',
     description: '',
     docID: '',
-    chapterID: ''
+    chapterID: '',
+    storyID: undefined
   }
 
   chapters : StoryChapter[] = [];
-
-  slides : any[] = [
-    {
-      url: './assets/book-composition-with-open-book.jpg',
-      title: 'First slide',
-      description: 'This is the first slide'
-    },
-    {
-      url: './assets/creative-composition-with-books-flower.jpg',
-      title: 'Second slide',
-      description: 'This is the second slide'
-    },
-    {
-      url: './assets/modern-bookstore-showcasing-rows-vibrant-books.jpg',
-      title: 'Third slide',
-      description: 'This is the third slide'
-    }
-  ];
 
   private dialogRef;
   private data;
@@ -69,6 +52,7 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
     this.character.description = this.data?.info?.description ?? '';
     this.character.docID = this.data?.info?.docID ?? '';
     this.character.chapterID = this.data?.info?.chapterID ?? '';
+    this.character.storyID = localStorage.getItem('selectedStoryDocID') ?? undefined;
   }
 
     onSubmit(){
@@ -88,11 +72,11 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
           }
         });
       }
-      this.dialogRef?.close([]);
+      this.dialogRef?.close();
     }
 
     closeDialog() {
-      this.dialogRef?.close([]);
+      this.dialogRef?.close();
       this.router.navigateByUrl("/nav/characters");
     }
 

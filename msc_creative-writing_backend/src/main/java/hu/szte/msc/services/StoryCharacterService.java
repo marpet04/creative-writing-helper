@@ -23,8 +23,8 @@ public class StoryCharacterService {
         return characterRepository.updateCharacter(character);
     }
 
-    public List<StoryCharacter> getAllCharacters() throws InterruptedException, ExecutionException {
-        return characterRepository.getAllCharacters();
+    public List<StoryCharacter> getAllCharacters(String storyID) throws InterruptedException, ExecutionException {
+        return characterRepository.getAllCharacters(storyID);
     }
 
     public StoryCharacter getCharacter(String id) throws InterruptedException, ExecutionException {

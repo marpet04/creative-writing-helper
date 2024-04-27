@@ -19,7 +19,7 @@ export class StoryCharacterService {
   }
 
   getAllCharacters(): Observable<any> {
-    return this.http.get('http://localhost:8080/api/character/getAllCharacters');
+    return this.http.get('http://localhost:8080/api/character/getAllCharacters/' + localStorage.getItem('selectedStoryDocID'));
   }
 
   deleteCharacter(id: string): Observable<any> {

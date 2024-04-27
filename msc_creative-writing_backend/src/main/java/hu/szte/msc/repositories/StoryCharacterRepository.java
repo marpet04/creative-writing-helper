@@ -38,8 +38,8 @@ public class StoryCharacterRepository {
         return character;
     }
 
-    public List<StoryCharacter> getAllCharacters() throws InterruptedException, ExecutionException {
-        ApiFuture<QuerySnapshot> future = COLL_REF.get();
+    public List<StoryCharacter> getAllCharacters(String storyID) throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = COLL_REF.whereEqualTo("storyID", storyID).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<StoryCharacter> listOfCharacters = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {

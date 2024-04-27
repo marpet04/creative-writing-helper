@@ -1,9 +1,10 @@
 <div class="slides">
     <div class="slide" [ngStyle]="
-        {'background-image':'url('+slides[currentSlide].url + ')', 
+        { 
         opacity: hidden ? 0 : 1,
         transition: 'opacity ' + animationSpeed + 'ms ease-in-out'
         }">
+        <img src="{{slides[currentSlide]?.url}}">
     </div>
 
     @if (indicatorVisible) {

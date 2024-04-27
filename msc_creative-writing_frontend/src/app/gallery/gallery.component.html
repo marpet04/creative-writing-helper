@@ -1,2 +1,26 @@
-<input type="file" (change)="onFileSelected($event)" accept="image/*">
-<button (click)="uploadImage()">Feltöltés</button>
+<!--<button mat-button>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*">
+</button>-->
+
+<button type="button" mat-raised-button (click)="fileInput.click()">Fájl kiválasztása</button>
+    <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/*">
+<span class="file-name">{{selectedFile?.name}}</span>
+
+<button mat-raised-button (click)="uploadImage()">Feltöltés</button>
+<app-img-slider [indicatorVisible]="true" [autoPlay]="false" [slides]="slides"></app-img-slider>
+
+<div class="card">
+    <mat-card *ngFor="let im of slides">
+        <mat-card-header>
+          <mat-card-title>{{im.title}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-xl-image src="{{im.url}}">
+        <mat-card-actions>
+          <button mat-raised-button (click)="deleteImage(im)">
+            <mat-icon>delete</mat-icon>
+            Kép törlése
+          </button>
+        </mat-card-actions>
+      </mat-card>
+</div>
+

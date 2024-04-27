@@ -23,8 +23,8 @@ public class StoryChapterService {
         return chapterRepository.updateChapter(chapter);
     }
 
-    public List<StoryChapter> getAllChapters() throws InterruptedException, ExecutionException {
-        return chapterRepository.getAllChapters();
+    public List<StoryChapter> getAllChapters(String storyID) throws InterruptedException, ExecutionException {
+        return chapterRepository.getAllChapters(storyID);
     }
 
     public StoryChapter getChapter(String id) throws InterruptedException, ExecutionException {

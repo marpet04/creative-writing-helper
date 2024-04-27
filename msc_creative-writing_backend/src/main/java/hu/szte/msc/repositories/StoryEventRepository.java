@@ -38,8 +38,8 @@ public class StoryEventRepository {
         return event;
     }
 
-    public List<StoryEvent> getAllEvents() throws InterruptedException, ExecutionException {
-        ApiFuture<QuerySnapshot> future = COLL_REF.get();
+    public List<StoryEvent> getAllEvents(String storyID) throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = COLL_REF.whereEqualTo("storyID", storyID).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<StoryEvent> listOfEvents = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {

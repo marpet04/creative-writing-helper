@@ -3,6 +3,8 @@ import { StoryCharacter } from '../models/StoryCharacter';
 import { StoryCharacterService } from '../services/story-character-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CharacterEditorComponent } from '../character-editor/character-editor.component';
+import { StoryChapter } from '../models/StoryChapter';
+import { ChapterService } from '../services/chapter.service';
 
 @Component({
   selector: 'app-characters',
@@ -11,20 +13,27 @@ import { CharacterEditorComponent } from '../character-editor/character-editor.c
 })
 export class CharactersComponent implements OnInit, OnChanges{
   characters: Array<StoryCharacter> = [];
+  chapters : StoryChapter[] = [];
 
-  constructor(private storyCharacterService: StoryCharacterService, public dialog: MatDialog) {}
+  constructor(private storyCharacterService: StoryCharacterService, public dialog: MatDialog, private chapterService: ChapterService) {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.refresh();
   }
 
   ngOnInit(): void {
-    this.refresh();
+    this.getCharacters();
+    this.getChapters();
   }
 
-  refresh(): void {
+  getCharacters(): void {
     this.storyCharacterService.getAllCharacters().subscribe(characters => {
       this.characters = characters;
       console.log(this.characters);
+    });
+  }
+
+  getChapters(): void {
+    this.chapterService.getAllChapters().subscribe(chapters => {
+      this.chapters = chapters;
     });
   }
 
@@ -35,13 +44,16 @@ export class CharactersComponent implements OnInit, OnChanges{
       },
     });
     console.log(characterData);
-    this.refresh();
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.getCharacters();
+    });
   }
 
   deleteCharacter(docID:string) {
     console.log(docID);
     this.storyCharacterService.deleteCharacter(docID).subscribe(t => {
       console.log(t);
+      this.getCharacters();
     });
   }
 }

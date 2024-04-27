@@ -30,6 +30,11 @@ import { NgxEditorModule } from 'ngx-editor';
 import { MatSelectModule } from '@angular/material/select';
 import { StoryEditorComponent } from './story-editor/story-editor.component';
 import { ChaptersComponent } from './chapters/chapters.component';
+import { EventsComponent } from './events/events.component';
+import { NgxLeaderLineModule } from 'ngx-leader-line';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TimelineComponent } from './timeline/timeline.component';
+import { EventEditorComponent } from './event-editor/event-editor.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +47,9 @@ import { ChaptersComponent } from './chapters/chapters.component';
     CharactersComponent,
     CharacterConnectionsComponent,
     StoryEditorComponent,
-    ChaptersComponent
+    ChaptersComponent,
+    EventsComponent,
+    EventEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +72,10 @@ import { ChaptersComponent } from './chapters/chapters.component';
     DragDropModule,
     MatTableModule,
     ColorPickerModule,
+    NgxLeaderLineModule,
+    MatExpansionModule,
+    TimelineComponent,
+    NgxLeaderLineModule
   ],
   providers: [],
   bootstrap: [AppComponent]

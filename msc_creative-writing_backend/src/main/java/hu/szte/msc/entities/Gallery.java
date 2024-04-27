@@ -2,21 +2,23 @@ package hu.szte.msc.entities;
 
 import java.util.List;
 
-public class Gallery {
-    private List<String> images;
+import hu.szte.msc.dtos.ImageDTO;
 
-    public List<String> getImages() {
+public class Gallery {
+    private List<Image> images;
+
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
     public Gallery() {
     }
 
-    public Gallery(List<String> images) {
+    public Gallery(List<Image> images) {
         this.images = images;
     }
 

@@ -37,9 +37,9 @@ public class StoryCharacterController {
         return new ResponseEntity<>(characterService.updateCharacter(character), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllCharacters")
-    public ResponseEntity<List<StoryCharacter>> getAllCharacters() throws InterruptedException, ExecutionException {
-        return new ResponseEntity<>(characterService.getAllCharacters(), HttpStatus.OK);
+    @GetMapping("/getAllCharacters/{storyID}")
+    public ResponseEntity<List<StoryCharacter>> getAllCharacters(@PathVariable("storyID") String storyID) throws InterruptedException, ExecutionException {
+        return new ResponseEntity<>(characterService.getAllCharacters(storyID), HttpStatus.OK);
     }
 
     @GetMapping("/getCharacter")

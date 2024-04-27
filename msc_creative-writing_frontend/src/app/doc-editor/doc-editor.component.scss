@@ -1,11 +1,9 @@
 .NgxEditor__Wrapper {
     border: 2px solid rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    height: 100%;
+    border-radius: 0px 0px 4px 4px;
+    height: 750px;
 
     .NgxEditor__MenuBar {
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         color: black;
     }
@@ -14,6 +12,7 @@
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       border: none;
+      height: 95%;
     }
   
     .CodeMirror {
@@ -25,4 +24,16 @@
         white-space: pre !important;
       }
     }
+  }
+
+  #title {
+    height: 50px;
+    width: 100%;
+    font-size: large;
+    align-self: center;
+    border-radius: 4px 4px 0px 0px;
+  }
+
+  form {
+    margin: 10px;
   }

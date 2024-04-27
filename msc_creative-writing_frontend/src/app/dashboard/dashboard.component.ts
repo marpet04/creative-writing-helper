@@ -6,6 +6,7 @@ import { Story } from '../models/Story';
 import { StoryService } from '../services/story.service';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryEditorComponent } from '../story-editor/story-editor.component';
+import { SharedDataService } from '../services/shared-data.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,16 +16,16 @@ import { StoryEditorComponent } from '../story-editor/story-editor.component';
 export class DashboardComponent implements OnInit, OnChanges{
   stories: Array<Story> = [];
 
-  constructor(private storyService: StoryService, public dialog: MatDialog) {}
+  constructor(private storyService: StoryService, public dialog: MatDialog, private sharedData: SharedDataService) {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.refresh();
+    
   }
 
   ngOnInit(): void {
-    this.refresh();
+    this.getStories();
   }
 
-  refresh(): void {
+  getStories(): void {
     this.storyService.getAllStories().subscribe(stories => {
       this.stories = stories;
     });
@@ -37,14 +38,21 @@ export class DashboardComponent implements OnInit, OnChanges{
       },
     });
     console.log(storyData);
-    this.refresh();
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.getStories();
+    })
   }
 
   deleteStory(docID:string) {
     console.log(docID);
     this.storyService.deleteStory(docID).subscribe(t => {
       console.log(t);
+      this.getStories();
     });
+  }
+
+  selectStory(s: Story) {
+    this.sharedData.setSelectedStory(s);
   }
   
 }

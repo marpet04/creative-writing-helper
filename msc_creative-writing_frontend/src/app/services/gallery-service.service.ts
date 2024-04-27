@@ -9,7 +9,7 @@ export class GalleryServiceService {
 
   constructor(private http: HttpClient) { }
 
-  uploadImage(im: FormData): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/api/gallery/uploadImage', im);
+  uploadImage(id: string, im: FormData): Observable<any> {
+    return this.http.post<any>('http://localhost:8080/api/gallery/uploadImage/' + id, im);
   }
 }

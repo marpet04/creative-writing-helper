@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Signal, computed, signal } from '@angular/core';
+import { Component, Input, OnInit, Signal, computed, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import { SharedDataService } from '../services/shared-data.service';
 
 export type MenuItem = {
   icon: string;
@@ -17,7 +18,7 @@ export type MenuItem = {
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit{
   menuItems : MenuItem[] = [
     {
       icon: 'dashboard',
@@ -54,6 +55,23 @@ export class SidenavComponent {
       ]
     },
     {
+      icon: 'events',
+      label: 'Események',
+      route: 'events',
+      subMenu: [
+        {
+          icon: 'event_note',
+          label: 'Esemény szerkesztő',
+          route: 'event-editor'
+        },
+        {
+          icon: 'timeline',
+          label: 'Idővonal tervező',
+          route: 'timeline'
+        }
+      ]
+    },
+    {
       icon: 'perm_media',
       label: 'Galéria',
       route: 'gallery'
@@ -64,6 +82,16 @@ export class SidenavComponent {
   collapsed = false;
 
   sidenavWidth : any;
+
+  selectedStoryTitle : string = localStorage.getItem('selectedStoryTitle') ?? "";
+
+  constructor(private sharedDataService: SharedDataService) {}
+
+  ngOnInit(): void {
+      this.sharedDataService.getSelectedStory().subscribe(x => {
+        this.selectedStoryTitle = x?.title;
+      });
+  }
 
   switch() {
     this.collapsed = !this.collapsed;

@@ -9,6 +9,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { Editor, NgxEditorModule, Toolbar, Validators, schema } from 'ngx-editor';
 import { StoryChapter } from '../models/StoryChapter';
+import { SharedDataService } from '../services/shared-data.service';
+import { ChapterService } from '../services/chapter.service';
+import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-doc-editor',
@@ -20,13 +24,25 @@ import { StoryChapter } from '../models/StoryChapter';
     MatInputModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule
   ],
   styleUrl: './doc-editor.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class DocEditorComponent implements OnInit, OnDestroy{
+
+  constructor(private sharedData : SharedDataService, private chapterService : ChapterService, private router: Router) {}
+
   editor: Editor = new Editor();
+
+  chapter: StoryChapter = {
+    docID : undefined,
+    storyID: '',
+    title: '',
+    body: ''
+
+  }
 
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -34,19 +50,16 @@ export class DocEditorComponent implements OnInit, OnDestroy{
     ['code', 'blockquote'],
     ['ordered_list', 'bullet_list'],
     [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
-    ['link', 'image'],
     ['text_color', 'background_color'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
 
   colorPresets = ['red', '#FF0000', 'rgb(255, 0, 0)'];
 
-  form = new FormGroup({
-    editorContent: new FormControl('', Validators.required()),
+  editorForm = new FormGroup({
+    title: new FormControl(this.chapter.title ?? '', Validators.required()),
+    editorContent: new FormControl(this.chapter.body ?? '', Validators.required()),
   });
-
-  constructor() {}
-
 
   ngOnInit(): void {
     this.editor = new Editor({
@@ -60,6 +73,44 @@ export class DocEditorComponent implements OnInit, OnDestroy{
       attributes: {},
       linkValidationPattern: ''
     });
+
+    let temp_chap = this.sharedData.getSelectedChapter();
+    if (temp_chap) {
+      this.chapterService.getChapter(temp_chap).subscribe(c => {
+        this.chapter = c;
+        console.log(c);
+        this.editorForm.controls.title.setValue(this.chapter.title);
+        this.editorForm.controls.editorContent.setValue(this.chapter.body);
+      });
+    }
+  }
+
+  save() {
+    if (this.chapter.docID == undefined) {
+      this.chapter = {
+        storyID: localStorage.getItem('selectedStoryDocID') ?? '',
+        title: this.editorForm.controls.title.value ?? '',
+        body: this.editorForm.controls.editorContent.value ?? ''
+      }
+      this.chapterService.createChapter(this.chapter).subscribe(ch => {
+        console.log(ch);
+      });
+    } else {
+      this.chapter = {
+        docID: this.chapter.docID,
+        storyID: localStorage.getItem('selectedStoryDocID') ?? '',
+        title: this.editorForm.controls.title.value ?? '',
+        body: this.editorForm.controls.editorContent.value ?? ''
+      }
+      this.chapterService.updateChapter(this.chapter).subscribe(ch => {
+        console.log(ch);
+      });
+    }
+  }
+
+  closeEditor() {
+    this.sharedData.setSelectedChapter(undefined);
+    this.router.navigateByUrl("/nav/chapters");
   }
 
   ngOnDestroy(): void {

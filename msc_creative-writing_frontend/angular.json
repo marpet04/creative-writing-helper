@@ -33,9 +33,6 @@
             "styles": [
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/leader-line/leader-line.min.js"
             ]
           },
           "configurations": {
@@ -105,7 +102,7 @@
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/leader-line/leader-line.min.js"]
           }
         }
       }

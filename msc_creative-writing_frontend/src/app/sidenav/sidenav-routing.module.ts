@@ -8,6 +8,9 @@ import { CharacterConnectionsComponent } from '../character-connections/characte
 import { GalleryComponent } from '../gallery/gallery.component';
 import { DocEditorComponent } from '../doc-editor/doc-editor.component';
 import { ChaptersComponent } from '../chapters/chapters.component';
+import { EventsComponent } from '../events/events.component';
+import { TimelineComponent } from '../timeline/timeline.component';
+import { EventEditorComponent } from '../event-editor/event-editor.component';
 
 const routes: Routes = [
   {
@@ -33,7 +36,17 @@ const routes: Routes = [
         },
         {
           path: 'chapters', component: ChaptersComponent
+        },
+        {
+          path: 'events', component: EventsComponent
+        },
+        {
+          path: 'event-editor', component: EventEditorComponent
+        },
+        {
+          path: 'timeline', component: TimelineComponent
         }
+
       ]
   }
 ];

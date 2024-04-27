@@ -37,9 +37,9 @@ public class StoryEventController {
         return new ResponseEntity<>(eventService.updateStoryEvent(storyEvent), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllStoryEvents")
-    public ResponseEntity<List<StoryEvent>> getAllEvents() throws InterruptedException, ExecutionException {
-        return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+    @GetMapping("/getAllStoryEvents/{storyID}")
+    public ResponseEntity<List<StoryEvent>> getAllEvents(@PathVariable("storyID") String storyID) throws InterruptedException, ExecutionException {
+        return new ResponseEntity<>(eventService.getAllEvents(storyID), HttpStatus.OK);
     }
 
     @GetMapping("/getStoryEvent")

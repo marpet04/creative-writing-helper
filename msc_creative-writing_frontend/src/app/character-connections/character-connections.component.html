@@ -1,12 +1,26 @@
 <div class="container">
             <div class="tray">
-                <div class="icons" *ngFor="let character of characters" id="{{character.name}}" cdkDragBoundary=".container" cdkDrag>
-                    <mat-icon matTooltip="{{character.name}}">face</mat-icon>
-                    <p>{{character.name}}</p>
+                <ng-container *ngFor="let character of characters">
+                <div id="{{character.name}}" class="icons" cdkDragBoundary=".container" cdkDrag (click)="drawLineOnClick(character.name)">
+                        <mat-icon matTooltip="{{character.name}}">face</mat-icon>
+                        <p>{{character.name}}</p>
+                    <!--<div *ngIf="character.name == 'apple'" [ldrConnectTo]="Bobby">
+                        <mat-icon matTooltip="{{character.name}}">face</mat-icon>
+                        <p>{{character.name}}</p>
+                    </div>-->
                 </div>
+            </ng-container>
+                <!--<div [ldrConnectTo]="Bobby" cdkDragBoundary=".container" cdkDrag>
+                    <p>APPLE</p>
+                </div>-->
+                <div #Bobby cdkDragBoundary=".container" cdkDrag>
+                    <p>BOBBY</p>
+                </div>
+                <div #startingElement id="start" cdkDragBoundary=".container" cdkDrag (click)="drawLineOnClick('start')">start</div>
+                <div #endingElement id="end" cdkDragBoundary=".container" cdkDrag (click)="drawLineOnClick('end')">end</div>
             </div>
             <canvas #canvas></canvas>
-        <div class="colors" *ngIf="colors">
+        <div #colorTableConnector="ldrConnector" [ldrConnectTo]="Bobby" class="colors" *ngIf="colors" cdkDrag (cdkDragMoved)="colorTableConnector.position()">
             <table mat-table [dataSource]="colors" class="mat-elevation-z8" style="min-width: 20%;">
                 <ng-container matColumnDef="color">
                 <th mat-header-cell *matHeaderCellDef> Szín </th>
@@ -25,6 +39,10 @@
             </table>
             <button mat-fab extended (click)="addRow()">
                 <mat-icon>library_add</mat-icon>
+                Kapcsolattípus hozzáadása
+            </button>
+            <button [ngClass]="{'activeButton': connect_btn}" mat-fab extended (click)="this.connect_btn = !this.connect_btn">
+                <mat-icon>group_add</mat-icon>
                 Kapcsolat hozzáadása
             </button>
         </div>

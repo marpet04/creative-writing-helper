@@ -40,8 +40,8 @@ public class StoryChapterRepository {
         return chapter;
     }
 
-    public List<StoryChapter> getAllChapters() throws InterruptedException, ExecutionException {
-        ApiFuture<QuerySnapshot> future = COLL_REF.get();
+    public List<StoryChapter> getAllChapters(String storyID) throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = COLL_REF.whereEqualTo("storyID", storyID).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<StoryChapter> listOfChapters = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {
