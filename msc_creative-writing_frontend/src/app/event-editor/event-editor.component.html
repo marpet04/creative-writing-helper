@@ -1,0 +1,27 @@
+<div style="display: flex; align-items: center; justify-content: center;">
+    <mat-card class="event-card">
+        <form #eventForm="ngForm" (ngSubmit)="onSubmit()">
+        <mat-card-header>
+        <mat-card-title style="margin-bottom: 10px;">Esemény</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field appearance="outline">
+                <input matInput id=title name=title placeholder="Esemény röviden" [(ngModel)]="event.title" required>
+            </mat-form-field>
+            <mat-form-field id=note appearance="outline">
+                <textarea matInput id=note name=note [(ngModel)]="event.note" placeholder="Esemény kifejtése"></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Fejezet, ahol az esemény van</mat-label>
+                <mat-select id=chapterID name=chapterID [(ngModel)]="event.chapterID" required>
+                  <mat-option *ngFor="let chapter of chapters" value={{chapter.docID}}>{{chapter.title}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+        <button mat-button type="submit" [disabled]="!eventForm.valid">Mentés</button>
+        <button mat-button type="button" (click)="closeDialog()">Mégse</button>
+        </mat-card-actions>
+        </form>
+    </mat-card>
+</div>
