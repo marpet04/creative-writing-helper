@@ -6,7 +6,8 @@ public class StoryEvent {
     private String storyID;
     private String title;
     private String note;
-    
+    private Integer index;
+
     public String getDocID() {
         return docID;
     }
@@ -39,13 +40,22 @@ public class StoryEvent {
     }
     public StoryEvent() {
     }
-    public StoryEvent(String docID, String chapterID, String storyID, String title, String note) {
+    public Integer getIndex() {
+        return index;
+    }
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+    public StoryEvent(String docID, String chapterID, String storyID, String title, String note, Integer index) {
         this.docID = docID;
         this.chapterID = chapterID;
         this.storyID = storyID;
         this.title = title;
         this.note = note;
+        this.index = index;
     }
+
+    
     
 
     

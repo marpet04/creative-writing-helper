@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import hu.szte.msc.dtos.TimelineUpdateBulkDTO;
+import hu.szte.msc.dtos.TimelineUpdateDTO;
 import hu.szte.msc.entities.StoryEvent;
 import hu.szte.msc.services.StoryEventService;
 
@@ -37,6 +39,12 @@ public class StoryEventController {
         return new ResponseEntity<>(eventService.updateStoryEvent(storyEvent), HttpStatus.OK);
     }
 
+    @PostMapping("/updateTimeline")
+    public ResponseEntity<TimelineUpdateDTO> updateTimeline(@RequestBody TimelineUpdateBulkDTO storyEvents) {
+        System.out.println(storyEvents);
+        return new ResponseEntity<>(eventService.updateTimeline(storyEvents.events()), HttpStatus.OK);
+    }
+
     @GetMapping("/getAllStoryEvents/{storyID}")
     public ResponseEntity<List<StoryEvent>> getAllEvents(@PathVariable("storyID") String storyID) throws InterruptedException, ExecutionException {
         return new ResponseEntity<>(eventService.getAllEvents(storyID), HttpStatus.OK);
@@ -48,7 +56,7 @@ public class StoryEventController {
     }
 
     @DeleteMapping("/deleteStoryEvent/{id}")
-    public ResponseEntity<String> deleteChapter(@PathVariable("id") String id) throws InterruptedException, ExecutionException {
+    public ResponseEntity<String> deleteEvent(@PathVariable("id") String id) throws InterruptedException, ExecutionException {
         return new ResponseEntity<>(eventService.deleteStoryEvent(id), HttpStatus.OK);
     }
 

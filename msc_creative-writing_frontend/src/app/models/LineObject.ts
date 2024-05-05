@@ -1,5 +1,8 @@
 export interface LineObject {
-    end: string,
+    docID?: string,
+    storyID?: string,
+    type?: string,
     start: string,
+    end: string,
     color: string
 }

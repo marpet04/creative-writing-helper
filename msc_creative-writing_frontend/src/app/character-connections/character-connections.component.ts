@@ -1,8 +1,13 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild, asNativeElements } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, asNativeElements } from '@angular/core';
 import { StoryCharacter } from '../models/StoryCharacter';
 import { StoryCharacterService } from '../services/story-character-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as LeaderLine from 'leader-line-new';
+import { LineObject } from '../models/LineObject';
+import { ConfigurationService } from '../services/configuration.service';
+import { forkJoin, mergeMap } from 'rxjs';
+import { CharacterObject } from '../models/CharacterObject';
+import { Router } from '@angular/router';
 
 export type Color = {
   color: string,
@@ -14,24 +19,12 @@ export type Color = {
   templateUrl: './character-connections.component.html',
   styleUrl: './character-connections.component.scss'
 })
-export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, OnInit{
-  @ViewChild('startingElement', { read: ElementRef }) startingElement!: ElementRef;
-  @ViewChild('endingElement', { read: ElementRef }) endingElement!: ElementRef;
-
-  @ViewChild('canvas', {static: true}) myCanvas!: ElementRef;
-
-  @ViewChild('canvasEl') canvas!: ElementRef<HTMLCanvasElement>;
-  ctx!: CanvasRenderingContext2D;
-  isDragging: boolean = false;
-  startX!: number;
-  startY!: number;
-  offsetX!: number;
-  offsetY!: number;
-
+export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, OnInit, OnDestroy{
   temp_start: string = "";
   temp_end: string = "";
 
   connect_btn: boolean = false;
+  disconnect_btn: boolean = false;
 
   characters: Array<StoryCharacter> = [];
   colors: Color[] = [
@@ -49,9 +42,49 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
     }
   ];
 
-  displayedColumns: string[] = ['color', 'connection'];
+  displayedColumns: string[] = ['color', 'connection', 'choice'];
 
-  constructor(private storyCharacterService: StoryCharacterService, public dialog: MatDialog) {}
+  linesOnBoard: LineObject[] = [];
+  addedLinesOnBoard: LineObject[] = [];
+  indexOfLine: number = -1;
+  characterObjectPositions: Map<string, CharacterObject> = new Map<string, CharacterObject>();
+  tempCharacterObjectPositions: Map<string, CharacterObject> = new Map<string, CharacterObject>();
+  linesToBeDeleted: LineObject[] = [];
+  color: string = 'coral';
+
+  constructor(private storyCharacterService: StoryCharacterService, private configService: ConfigurationService, public dialog: MatDialog, private router: Router) {}
+  ngOnDestroy(): void {
+    this.leaderlines.forEach((line) => {
+      line.remove();
+    });
+    this.characterObjectPositions = new Map<string, CharacterObject>();
+  }
+
+  ngAfterViewInit(): void {
+    this.iterateCharPos();
+    this.iterateLines();
+  }
+
+  iterateLines() {
+    this.configService.getAllLines().subscribe(lines => {
+      this.linesOnBoard = lines;
+      for (let line of this.linesOnBoard) {
+        console.log(line);
+        this.drawLine(line.start, line.end, true, line.color);
+      }
+    });
+  }
+
+  iterateCharPos() {
+    this.configService.getAllCharPos().subscribe(pos => {
+      for(let p of pos) {
+        this.characterObjectPositions.set(p.objectId, p);
+        console.log(p);
+        this.setPosition(p.objectId);
+      }
+    });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.storyCharacterService.getAllCharacters().subscribe(characters => {
       this.characters = characters;
@@ -59,40 +92,76 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
   }
 
   ngOnInit(): void {
-    const canvas: HTMLCanvasElement = this.myCanvas.nativeElement;
-    const context = canvas.getContext('2d');
     this.storyCharacterService.getAllCharacters().subscribe(characters => {
       this.characters = characters;
-      console.log(this.characters);
     });
+  }
+
+  getClick(param: string) {
+    if (this.connect_btn) {
+      this.drawLineOnClick(param);
+    } else if (this.disconnect_btn) {
+      this.removeLineOnClick(param);
+    }
   }
 
   drawLineOnClick(param: string) {
     if (this.connect_btn) {
+      console.log("drawLineOnClick");
       if (this.temp_start == "") {
         this.temp_start = param;
         console.log(this.temp_start);
-      } else if (this.temp_end == "") {
+      } else {
         this.temp_end = param;
         console.log(this.temp_end);
-      } else {
-        this.drawLine(this.temp_start, this.temp_end);
+        this.drawLine(this.temp_start, this.temp_end, false, this.color);
         this.temp_start = "";
-        this.temp_end = "";
+        this.temp_end = "";  
       }
     }
   }
 
-  drawLine(start: string, end: string) {
-    let line = new LeaderLine(document.getElementById(start) as Element, document.getElementById(end) as Element);
+  leaderlines: LeaderLine[] = [];
+
+  removeLineOnClick(param: string) {
+    if (this.disconnect_btn) {
+      console.log("removeLineOnClick");
+      if (this.temp_start == "") {
+        this.temp_start = param;
+        console.log(this.temp_start);
+      } else {
+        this.temp_end = param;
+        console.log(this.temp_end);
+        console.log("removeLine előtt");
+        this.removeLine(this.temp_start, this.temp_end);
+        console.log("removeLine után");
+        this.temp_start = "";
+        this.temp_end = "";  
+      }
+    }
+  }
+
+  drawLine(start: string, end: string, loaded: boolean, colorOption: string) {
+    let line = new LeaderLine(document.getElementById(start) as Element, document.getElementById(end) as Element, {
+      color: colorOption
+    });
+    this.leaderlines.push(line);
     line.show();
-    line.position();
-    console.log(line);
-    //console.log(document.getElementById(start)!.getBoundingClientRect());
+    if (loaded == false) {
+      this.addedLinesOnBoard.push({
+        storyID: localStorage.getItem('selectedStoryDocID')!,
+        start: start,
+        end: end,
+        color: line.color
+      });
+    }
+
+    console.log(document.getElementById(start)!.getBoundingClientRect());
+
     document.getElementById(start)!.addEventListener('mousemove', () => {
       line.position();
     }, false);
-    document.getElementById(end)!.addEventListener('mousedown', () => {
+    document.getElementById(end)!.addEventListener('mousemove', () => {
       line.show();
       line.position();
     }, false);
@@ -100,90 +169,137 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
       line.position();
     }, false);
     
-
-    document.querySelectorAll("svg").forEach(function(elem) {
-      console.log(elem);
-      if(elem.getAttribute("data-line_id") === '2') {
-             console.log("I'm here, sucker");
+    let svg_class = Array.from(document.querySelectorAll("svg"));
+    let indexLine = 0
+    for(let svg of svg_class) {
+      if (svg.getAttribute("class") == "leader-line") {
+        indexLine += 1;
+        svg.setAttribute("elementId", indexLine as unknown as string);
+        console.log("----------------------------");
+        console.log(svg);
       }
-    });
-
-
-
-    //document.getElementById('2')!.addEventListener('click', () => {
-    //  line.remove();
-    //}, false);
-  }
-
-  addRow() {
-
-
-  }
-
-
-  ngAfterViewInit() {
-    this.ctx = this.canvas.nativeElement.getContext('2d') ?? new CanvasRenderingContext2D();
-    this.drawShape(100, 100, 50, 'red'); // Rajzolj egy alakzatot a canvas-ra
-    let rectX = 200
-    let rectY = 200
-    let gap= 200
-    let rectHeight = 150
-    this.storyCharacterService.getAllCharacters().subscribe(characters => {
-      this.characters = characters;
-      console.log(this.characters);
-      this.characters.forEach(character =>{
-
-            this.drawSquareWithText(character.name, 200, rectY, 150, 'blue');
-            rectY += gap
-  
-      })
-    });
-  }
-
-  drawShape(x: number, y: number, radius: number, color: string) {
-    this.ctx.fillStyle = color;
-    this.ctx.beginPath();
-    this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
-    this.ctx.fillText("Attack!",this.startX+(this.offsetX/2),this.startY+(this.offsetY/2));
-    this.ctx.textAlign = "center";
-    this.ctx.closePath();
-    this.ctx.fill();
-  }
-
-  onMouseDown(event: MouseEvent) {
-    const rect = this.canvas.nativeElement.getBoundingClientRect();
-    this.startX = event.clientX - rect.left;
-    this.startY = event.clientY - rect.top;
-    this.isDragging = true;
-  }
-
-  onMouseMove(event: MouseEvent) {
-    if (this.isDragging) {
-      const rect = this.canvas.nativeElement.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      this.offsetX = x - this.startX;
-      this.offsetY = y - this.startY;
-      this.clearCanvas();
-      this.drawShape(this.startX + this.offsetX, this.startY + this.offsetY, 50, 'red'); // Mozgassuk az alakzatot a különbségnek megfelelően
+      
     }
   }
 
-  onMouseUp(event: MouseEvent) {
-    this.isDragging = false;
+  removeLine(start: string, end: string) {
+    if (this.leaderlines.length == 0) {
+      console.log("Üres tömbből nem lehet törölni!");
+    } else {
+      for (let l of this.leaderlines) {
+        console.log(l);
+        let startElement = l.start as HTMLElement;
+        let endElement = l.end as HTMLElement;
+        if(startElement.id == start && endElement.id == end) {
+          l.remove();
+          console.log("Törölve!");
+          let i = 0;
+          for(let o of this.addedLinesOnBoard) {
+            if (o.start == start && o.end == end) {
+              console.log(o);
+              this.addedLinesOnBoard.splice(i, 1);
+              console.log(this.addedLinesOnBoard);
+            }
+            i += 1;
+          }
+          let j = 0;
+          for(let o of this.linesOnBoard) {
+            if (o.start == start && o.end == end) {
+              this.linesOnBoard.splice(i, 1);
+              console.log(o);
+              console.log(this.linesOnBoard);
+              this.linesToBeDeleted.push({
+                storyID: localStorage.getItem('selectedStoryDocID')!,
+                start: start,
+                end: end,
+                color: o.color,
+                docID: o.docID
+              });
+              console.log(this.linesToBeDeleted);
+            }
+            j += 1;
+          }
+        }
+      }
+    }
   }
 
-  clearCanvas() {
-    this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+  getPosition(objectId: string) {
+    let objectPosition = document.getElementById(objectId)?.getBoundingClientRect();
+    this.tempCharacterObjectPositions.set(objectId, {
+      positionX: objectPosition?.left!,
+      positionY: objectPosition?.top!,
+      objectId: objectId,
+      storyID: localStorage.getItem('selectedStoryDocID')!
+    });
+    console.log(objectId + ' positionX: ' + objectPosition?.left! + ' positionY: ' + objectPosition?.top!);
+    console.log(this.tempCharacterObjectPositions);
   }
 
-  drawSquareWithText(text: string, x: number, y: number, size: number, color: string) {
-    this.ctx.fillStyle = color;
-    this.ctx.fillRect(x - size / 2, y - size / 2, size, size); // A négyzet közepének koordinátái és mérete
-    this.ctx.fillStyle = 'white';
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
-    this.ctx.font = '20px Arial';
-    this.ctx.fillText(text, x, y); // A szöveg középpontjának koordinátái
+  setPosition(objectId: string) {
+    let object = this.characterObjectPositions.get(objectId);
+    let objectPosition = document.getElementById(objectId) as HTMLElement;
+    console.log(document.getElementById(objectId));
+    console.log(object);
+    objectPosition.style.position = 'absolute';
+    objectPosition.style.left = object?.positionX + 'px';
+    objectPosition.style.top = object?.positionY + 'px';
   }
+
+  getColor(color: string) {
+    this.color = color;
+  }
+
+  addRow() {}
+
+  save() {
+    console.log(this.addedLinesOnBoard);
+    for (let line of this.addedLinesOnBoard) {
+      this.configService.createLine(line).subscribe(lineObj => {
+        console.log(lineObj);
+      });
+    }
+    this.linesOnBoard = this.linesOnBoard.concat(this.addedLinesOnBoard);
+    this.addedLinesOnBoard = [];
+
+    console.log(this.linesToBeDeleted);
+    for (let line of this.linesToBeDeleted) {
+      console.log(line);
+      this.configService.removeLine(line.docID!).subscribe(message => {
+        console.log(message);
+      })
+    }
+
+    this.linesToBeDeleted = [];
+
+    for (let co of this.tempCharacterObjectPositions) {
+      let sim = this.characterObjectPositions.get(co[0]);
+      console.log(sim);
+      if (sim == undefined) {
+        console.log('Creation');
+        this.configService.createCharPos(co[1]).subscribe(charObj => {
+          console.log(charObj);
+        });
+      } else {
+        console.log('Update');
+        co[1].docID = sim.docID;
+        this.configService.updateCharPos(co[1]).subscribe(charObj => {
+          console.log(charObj);
+        });
+      }
+    }
+
+    this.tempCharacterObjectPositions = new Map<string, CharacterObject>();
+    this.leaderlines.forEach((line) => {
+      line.remove();
+    });
+    this.characterObjectPositions = new Map<string, CharacterObject>();
+    this.goBack();
+  }
+
+  goBack() {
+    this.router.navigateByUrl("/nav/characters");
+  }
+
+
 }

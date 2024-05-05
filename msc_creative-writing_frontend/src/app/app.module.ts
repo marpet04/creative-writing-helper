@@ -35,6 +35,9 @@ import { NgxLeaderLineModule } from 'ngx-leader-line';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TimelineComponent } from './timeline/timeline.component';
 import { EventEditorComponent } from './event-editor/event-editor.component';
+import { initializeApp } from "firebase/app";
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -75,7 +78,8 @@ import { EventEditorComponent } from './event-editor/event-editor.component';
     NgxLeaderLineModule,
     MatExpansionModule,
     TimelineComponent,
-    NgxLeaderLineModule
+    NgxLeaderLineModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

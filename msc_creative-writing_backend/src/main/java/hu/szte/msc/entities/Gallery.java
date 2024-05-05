@@ -2,8 +2,6 @@ package hu.szte.msc.entities;
 
 import java.util.List;
 
-import hu.szte.msc.dtos.ImageDTO;
-
 public class Gallery {
     private List<Image> images;
 

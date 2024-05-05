@@ -17,7 +17,8 @@ export class EventEditorComponent implements OnInit, OnChanges{
     note: '',
     docID: '',
     chapterID: '',
-    storyID: undefined
+    storyID: undefined,
+    index: undefined
   }
 
   chapters : StoryChapter[] = [];

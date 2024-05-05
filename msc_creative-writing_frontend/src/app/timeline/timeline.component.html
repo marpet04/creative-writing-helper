@@ -1,1 +1,24 @@
-<p>timeline works!</p>
+<div cdkDropListGroup>
+@for (chapter of chapters; track chapter) {
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{chapter.title}}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="event-list" cdkDropList [cdkDropListData]="this.filteredEvents.get('events_'+chapter.docID)!" (cdkDropListDropped)="drop($event, chapter)">
+      @for (event of this.filteredEvents.get('events_'+chapter.docID)!; track event) {
+        <div class="event-box" cdkDrag>{{event.title}} - {{event.note}}</div>
+      }
+  </div>
+</mat-expansion-panel>
+}
+<button mat-button (click)="save()">
+  <mat-icon>done</mat-icon>
+  Sorrend mentése
+</button>
+<button mat-button (click)="goBack()">
+  <mat-icon>close</mat-icon>
+  Sorrend elvetése
+</button>
+</div>

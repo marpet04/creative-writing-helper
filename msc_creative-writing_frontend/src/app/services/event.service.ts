@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StoryEvent } from '../models/StoryEvent';
 import { Observable } from 'rxjs';
+import { TimelineObj } from '../models/TimelineObj';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class EventService {
 
   updateStoryEvent(ev:StoryEvent): Observable<any> {
     return this.http.post('http://localhost:8080/api/event/updateStoryEvent', ev);
+  }
+
+  updateTimeline(timeline: TimelineObj): Observable<any> {
+    return this.http.post('http://localhost:8080/api/event/updateTimeline', timeline);
   }
 
   getAllStoryEvents(): Observable<any> {

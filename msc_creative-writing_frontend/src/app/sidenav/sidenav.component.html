@@ -4,7 +4,8 @@
     </button>
     <span>CWAT</span>
     <span class="example-spacer"></span>
-    <span>{{selectedStoryTitle}}</span>
+    <span *ngIf="selectedStoryTitle">{{selectedStoryTitle}}</span>
+    <span *ngIf="!selectedStoryTitle">Válassz ki egy Történetet!</span>
   </mat-toolbar>
 
 <mat-sidenav-container>

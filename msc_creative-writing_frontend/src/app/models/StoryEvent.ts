@@ -3,5 +3,6 @@ export interface StoryEvent {
     chapterID: string,
     storyID: string | undefined,
     title: string,
-    note: string
+    note: string,
+    index: number | undefined
 }

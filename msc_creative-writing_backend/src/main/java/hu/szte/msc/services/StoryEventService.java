@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import hu.szte.msc.dtos.TimelineUpdateDTO;
 import hu.szte.msc.entities.StoryEvent;
 import hu.szte.msc.repositories.StoryEventRepository;
 
@@ -33,6 +34,10 @@ public class StoryEventService {
 
     public String deleteStoryEvent(String docID) throws InterruptedException, ExecutionException {
         return storyEventRepository.deleteStoryEvent(docID);
+    }
+
+    public TimelineUpdateDTO updateTimeline(List<StoryEvent> eventBulk) {
+        return storyEventRepository.updateTimeline(eventBulk);
     }
     
 }

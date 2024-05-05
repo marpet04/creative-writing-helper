@@ -13,9 +13,11 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteBatch;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
+import hu.szte.msc.dtos.TimelineUpdateDTO;
 import hu.szte.msc.entities.StoryEvent;
 
 @Service
@@ -64,6 +66,31 @@ public class StoryEventRepository {
             e.printStackTrace();
         }
         return null;  
+    }
+
+    public TimelineUpdateDTO updateTimeline(List<StoryEvent> eventBulk) {
+
+        WriteBatch batch = db.batch();
+
+        for (StoryEvent event : eventBulk) {
+            DocumentReference eventRef = COLL_REF.document(event.getDocID());
+            batch.set(eventRef, event);
+        }
+
+        ApiFuture<List<WriteResult>> future = batch.commit();
+  
+        try {
+            for (WriteResult result : future.get()) {
+                System.out.println("Update time : " + result.getUpdateTime());
+            }
+
+            return new TimelineUpdateDTO("Timeline save was successful!");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return new TimelineUpdateDTO("Timeline save was NOT successful!");
+
     }
     
 }
