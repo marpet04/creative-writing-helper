@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
@@ -14,7 +15,6 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 
 import hu.szte.msc.entities.Story;
 
@@ -25,8 +25,16 @@ public class StoryRepository {
     private static final String CHAPTER_TABLE_NAME = "chapters";
     private static final String CHARACTER_TABLE_NAME = "characters";
     private static final String EVENT_TABLE_NAME = "events";
-    private Firestore db = FirestoreClient.getFirestore();
-    private CollectionReference COLL_REF = db.collection(STORY_TABLE_NAME);
+
+
+    private final Firestore firestore;
+    private CollectionReference COLL_REF;
+
+    @Autowired
+    public StoryRepository(Firestore firestore) {
+        this.firestore = firestore;
+        this.COLL_REF = this.firestore.collection(STORY_TABLE_NAME);
+    }
     
 
     public Story createStory(Story story) {
@@ -41,8 +49,8 @@ public class StoryRepository {
         return story;
     }
 
-    public List<Story> getAllStories() throws InterruptedException, ExecutionException {
-        ApiFuture<QuerySnapshot> future = COLL_REF.get();
+    public List<Story> getAllStories(String author) throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = COLL_REF.whereEqualTo("author", author).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<Story> listOfStories = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {
@@ -59,21 +67,21 @@ public class StoryRepository {
     }
 
     public String deleteStory(String docID) throws InterruptedException, ExecutionException {
-        ApiFuture<QuerySnapshot> future_character = db.collection(CHARACTER_TABLE_NAME).whereEqualTo("storyID", docID).get();
-        ApiFuture<QuerySnapshot> future_event = db.collection(EVENT_TABLE_NAME).whereEqualTo("storyID", docID).get();
-        ApiFuture<QuerySnapshot> future_chapter = db.collection(CHAPTER_TABLE_NAME).whereEqualTo("storyID", docID).get();
+        ApiFuture<QuerySnapshot> future_character = this.firestore.collection(CHARACTER_TABLE_NAME).whereEqualTo("storyID", docID).get();
+        ApiFuture<QuerySnapshot> future_event = this.firestore.collection(EVENT_TABLE_NAME).whereEqualTo("storyID", docID).get();
+        ApiFuture<QuerySnapshot> future_chapter = this.firestore.collection(CHAPTER_TABLE_NAME).whereEqualTo("storyID", docID).get();
 
         List<QueryDocumentSnapshot> documentsCharacters = future_character.get().getDocuments();
         for (DocumentSnapshot document : documentsCharacters) {
-            db.collection(CHARACTER_TABLE_NAME).document(document.getId()).delete();
+            this.firestore.collection(CHARACTER_TABLE_NAME).document(document.getId()).delete();
         }
         List<QueryDocumentSnapshot> documentsEvents = future_event.get().getDocuments();
         for (DocumentSnapshot document : documentsEvents) {
-            db.collection(EVENT_TABLE_NAME).document(document.getId()).delete();
+            this.firestore.collection(EVENT_TABLE_NAME).document(document.getId()).delete();
         }
         List<QueryDocumentSnapshot> documentsChapters = future_chapter.get().getDocuments();
         for (DocumentSnapshot document : documentsChapters) {
-            db.collection(CHAPTER_TABLE_NAME).document(document.getId()).delete();
+            this.firestore.collection(CHAPTER_TABLE_NAME).document(document.getId()).delete();
         }
 
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();

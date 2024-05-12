@@ -32,6 +32,7 @@
     "ngx-color-picker": "^16.0.0",
     "ngx-editor": "^17.0.2",
     "ngx-leader-line": "^0.0.3",
+    "ngx-toastr": "^18.0.0",
     "rxjs": "^7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"

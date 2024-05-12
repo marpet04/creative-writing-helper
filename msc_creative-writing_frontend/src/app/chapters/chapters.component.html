@@ -1,8 +1,20 @@
+<div>
+  Rendezés:
+  <mat-select [(value)]="selected" (valueChange)="setOrder()">
+    <mat-option value="none">Nincs szűrés</mat-option>
+    <mat-option value="desc">Legújabb módosítástól a legrégebbiig</mat-option>
+    <mat-option value="asc">Legrégebbi módosítástól a legújabbig</mat-option>
+  </mat-select>
+</div>
+
 <div class="card">
     <mat-card *ngFor="let chapter of chapters">
         <mat-card-header>
           <mat-card-title>{{chapter.title}}</mat-card-title>
         </mat-card-header>
+        <mat-card-content>
+          <div>Utoljára módosítva: {{toDate(chapter.lastUpdated?.seconds!)}}</div>
+      </mat-card-content>
         <mat-card-actions>
           <button mat-button (click)="openEditor(chapter)">
             <mat-icon>edit</mat-icon>

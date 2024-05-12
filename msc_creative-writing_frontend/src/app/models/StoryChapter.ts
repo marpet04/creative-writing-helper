@@ -1,6 +1,12 @@
+import { Time } from "@angular/common";
+
 export interface StoryChapter {
     docID?: string,
     storyID: string,
     title: string,
-    body: string
+    body: string,
+    lastUpdated? : {
+        nanos: number,
+        seconds: number
+    }
 }

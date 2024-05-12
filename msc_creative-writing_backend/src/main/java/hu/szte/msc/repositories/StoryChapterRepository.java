@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -14,7 +16,6 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 
 import hu.szte.msc.entities.StoryChapter;
 
@@ -24,18 +25,27 @@ public class StoryChapterRepository {
     private static final String CHAPTER_TABLE_NAME = "chapters";
     private static final String CHARACTER_TABLE_NAME = "characters";
     private static final String EVENT_TABLE_NAME = "events";
-    private Firestore db = FirestoreClient.getFirestore();
-    private CollectionReference COLL_REF = db.collection(CHAPTER_TABLE_NAME);
+
+    private final Firestore firestore;
+    private CollectionReference COLL_REF;
+
+    @Autowired
+    public StoryChapterRepository(Firestore firestore) {
+        this.firestore = firestore;
+        this.COLL_REF = this.firestore.collection(CHAPTER_TABLE_NAME);
+    }
     
 
     public StoryChapter createChapter(StoryChapter chapter) {
         String docId = COLL_REF.document().getId();
         chapter.setDocID(docId);
+        chapter.setLastUpdated(Timestamp.now());
         ApiFuture<WriteResult> future = COLL_REF.document(docId).set(chapter);
         return chapter;
     }
 
     public StoryChapter updateChapter(StoryChapter chapter) {
+        chapter.setLastUpdated(Timestamp.now());
         ApiFuture<WriteResult> future = COLL_REF.document(chapter.getDocID()).set(chapter);
         return chapter;
     }
@@ -59,16 +69,16 @@ public class StoryChapterRepository {
 
     public String deleteChapter(String docID) throws InterruptedException, ExecutionException {
 
-        ApiFuture<QuerySnapshot> future_character = db.collection(CHARACTER_TABLE_NAME).whereEqualTo("chapterID", docID).get();
-        ApiFuture<QuerySnapshot> future_event = db.collection(EVENT_TABLE_NAME).whereEqualTo("chapterID", docID).get();
+        ApiFuture<QuerySnapshot> future_character = this.firestore.collection(CHARACTER_TABLE_NAME).whereEqualTo("chapterID", docID).get();
+        ApiFuture<QuerySnapshot> future_event = this.firestore.collection(EVENT_TABLE_NAME).whereEqualTo("chapterID", docID).get();
 
         List<QueryDocumentSnapshot> documentsCharacters = future_character.get().getDocuments();
         for (DocumentSnapshot document : documentsCharacters) {
-            db.collection(CHARACTER_TABLE_NAME).document(document.getId()).delete();
+            this.firestore.collection(CHARACTER_TABLE_NAME).document(document.getId()).delete();
         }
         List<QueryDocumentSnapshot> documentsEvents = future_event.get().getDocuments();
         for (DocumentSnapshot document : documentsEvents) {
-            db.collection(EVENT_TABLE_NAME).document(document.getId()).delete();
+            this.firestore.collection(EVENT_TABLE_NAME).document(document.getId()).delete();
         }
 
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();

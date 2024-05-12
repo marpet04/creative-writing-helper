@@ -23,8 +23,8 @@ public class StoryService {
         return storyRepository.updateStory(story);
     }
 
-    public List<Story> getAllStories() throws InterruptedException, ExecutionException {
-        return storyRepository.getAllStories();
+    public List<Story> getAllStories(String author) throws InterruptedException, ExecutionException {
+        return storyRepository.getAllStories(author);
     }
 
     public Story getStory(String id) throws InterruptedException, ExecutionException {

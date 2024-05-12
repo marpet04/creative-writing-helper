@@ -1,0 +1,25 @@
+<div class="centering">
+    <mat-card class="profile-card">
+      <form class="profile-form" [formGroup] = "profileForm" (ngSubmit)="updateProfile()">
+        <h2>Profil szerkesztése</h2>
+        <mat-form-field>
+            <mat-label for="email">Email: </mat-label>
+            <input matInput type="text" formControlName="email" readonly/>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+            <mat-label for="name">Felhasználónév: </mat-label>
+            <input matInput type="text" formControlName="name" />
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+          <mat-label for="password">Jelszó a változtatás megerősítéséhez: </mat-label>
+          <input matInput type="password" formControlName="password" required/>
+      </mat-form-field>
+        <mat-card-actions> 
+          <button mat-raised-button color="primary" class="max-width" type="submit">Módosítás</button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+</div>
+

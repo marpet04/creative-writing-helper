@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
@@ -24,8 +25,14 @@ import hu.szte.msc.entities.StoryEvent;
 public class StoryEventRepository {
 
     private static final String EVENT_TABLE_NAME = "events";
-    private Firestore db = FirestoreClient.getFirestore();
-    private CollectionReference COLL_REF = db.collection(EVENT_TABLE_NAME);
+    private final Firestore firestore;
+    private CollectionReference COLL_REF;
+
+    @Autowired
+    public StoryEventRepository(Firestore firestore) {
+        this.firestore = firestore;
+        this.COLL_REF = this.firestore.collection(EVENT_TABLE_NAME);
+    }
     
 
     public StoryEvent createStoryEvent(StoryEvent event) {
@@ -70,7 +77,7 @@ public class StoryEventRepository {
 
     public TimelineUpdateDTO updateTimeline(List<StoryEvent> eventBulk) {
 
-        WriteBatch batch = db.batch();
+        WriteBatch batch = this.firestore.batch();
 
         for (StoryEvent event : eventBulk) {
             DocumentReference eventRef = COLL_REF.document(event.getDocID());

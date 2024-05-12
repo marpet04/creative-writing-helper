@@ -11,6 +11,7 @@ import { ImageObj } from '../models/ImageObj';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-gallery',
@@ -26,7 +27,7 @@ export class GalleryComponent implements OnInit {
 
   slides : any[] = [];
 
-  constructor(private http: HttpClient, private galleryService: GalleryServiceService, private gallery: Gallery, private storyService : StoryService) {}
+  constructor(private http: HttpClient, private galleryService: GalleryServiceService, private gallery: Gallery, private storyService : StoryService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getImages();
@@ -64,15 +65,36 @@ export class GalleryComponent implements OnInit {
 
     this.galleryService.uploadImage(this.selectedStory, formData).subscribe(
       (response) => {
-        console.log('Sikeresen feltöltve!');
+        this.showSuccess('Sikeresen feltöltve!');
         this.getImages();
       },
       (error) => {
-        console.error('Hiba a feltöltés közben:', error);
+        this.showFailure('Hiba a feltöltés közben:' + error);
       }
     );
   }
 
-  deleteImage(im: any) {}
+  deleteImage(im: any) {
+    this.galleryService.deleteImage(this.selectedStory, im.title).subscribe(
+      (response) => {
+        this.showSuccess(response);
+        this.getImages();
+      },
+      (error) => {
+        this.showFailure(error);
+      }
+      
+    )
+  }
+
+  showSuccess(message: string) {
+    this.toastr.success(message, 'Galéria');
+  }
+
+  showFailure(message: string) {
+    this.toastr.error(message, 'Galéria', {
+      closeButton: true
+    });
+  }
 
 }

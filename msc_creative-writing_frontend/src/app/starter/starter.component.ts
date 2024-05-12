@@ -8,19 +8,19 @@ import { Component } from '@angular/core';
 export class StarterComponent {
   slides : any[] = [
     {
-      url: './assets/book-composition-with-open-book.jpg',
-      title: 'First slide',
-      description: 'This is the first slide'
+      url: './assets/undraw_Book_lover_re_rwjy.png',
+      title: 'Book lover',
+      description: 'Book lover'
     },
     {
-      url: './assets/creative-composition-with-books-flower.jpg',
-      title: 'Second slide',
-      description: 'This is the second slide'
+      url: './assets/undraw_My_documents_re_13dc.png',
+      title: 'My documents',
+      description: 'My documents'
     },
     {
-      url: './assets/modern-bookstore-showcasing-rows-vibrant-books.jpg',
-      title: 'Third slide',
-      description: 'This is the third slide'
+      url: './assets/undraw_Personal_notebook_re_d7dc.png',
+      title: 'Personal notebook',
+      description: 'Personal notebook'
     }
   ];
 }

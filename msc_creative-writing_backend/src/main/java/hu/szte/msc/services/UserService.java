@@ -1,21 +1,33 @@
 package hu.szte.msc.services;
 
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
-
+import hu.szte.msc.entities.User;
 import hu.szte.msc.repositories.UserRepository;
+
 
 @Service
 public class UserService {
 
-    public UserRecord getUserByEmail(String email) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User saveUser(User user) {
+        return userRepository.saveUser(user);
+    }
+
+    public User updateUser(User user) {
+        return userRepository.updateUser(user);
+    }
+
+    public User getUserByEmail(String email) {
         try {
-            return FirebaseAuth.getInstance().getUserByEmail(email);
-        } catch (FirebaseAuthException e) {
+            return userRepository.getUserByEmail(email);
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

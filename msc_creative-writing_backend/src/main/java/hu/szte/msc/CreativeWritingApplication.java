@@ -7,49 +7,39 @@ import java.util.Objects;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.StorageClient;
 
 @SpringBootApplication
 public class CreativeWritingApplication {
 
 	public static void main(String[] args) {
-		ClassLoader classLoader = CreativeWritingApplication.class.getClassLoader();
+		/*ClassLoader classLoader = CreativeWritingApplication.class.getClassLoader();
 
 		File file = new File(Objects.requireNonNull(classLoader.getResource("serviceAccountKey.json")).getFile());
 
 		try {
+			System.out.println(file.getAbsolutePath());
 			FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());
 			FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 				.setStorageBucket("creative-writing-4c4b4.appspot.com")
 				.build();
 
-			FirebaseApp.initializeApp(options);
-			//initializeStorage(serviceAccount);
-
-			//Bucket bucket = StorageClient.getInstance().bucket();
+			if (FirebaseApp.getApps().isEmpty()) {
+				FirebaseApp app = FirebaseApp.initializeApp(options);
+				System.out.println(app.getName());
+			}
 				
         } catch (IOException e) {
             System.out.println("Error: " + e);
-        }
+        }*/
+
+		//AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(FirebaseConfig.class);
+		//FirebaseConfig config = context.getBean(FirebaseConfig.class);
 
 		SpringApplication.run(CreativeWritingApplication.class, args);
 	}
-
-	/*public static Storage initializeStorage(FileInputStream serviceAccount) throws IOException {
-        Storage storage = StorageOptions.newBuilder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .build()
-                .getService();
-
-        return storage;
-    }*/
 
 }

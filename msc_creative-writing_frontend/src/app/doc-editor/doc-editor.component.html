@@ -6,6 +6,8 @@
       <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
       <ngx-editor [editor]="editor" formControlName="editorContent" placeholder="Ide írj"> </ngx-editor>
     </div>
-    <button mat-button type="submit" [disabled]="!editorForm.valid">Mentés</button>
-    <button mat-button (click)="closeEditor()">Vissza a fejezetekhez</button>
+    <ng-container *ngIf="!demo">
+      <button mat-button type="submit" [disabled]="!editorForm.valid">Mentés</button>
+      <button mat-button (click)="closeEditor()">Vissza a fejezetekhez</button>
+    </ng-container>
 </form>

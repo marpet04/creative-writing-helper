@@ -10,7 +10,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
@@ -35,9 +35,19 @@ import { NgxLeaderLineModule } from 'ngx-leader-line';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TimelineComponent } from './timeline/timeline.component';
 import { EventEditorComponent } from './event-editor/event-editor.component';
-import { initializeApp } from "firebase/app";
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
+import { ToastrModule } from 'ngx-toastr';
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ProfileComponent } from './profile/profile.component';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { SettingsComponent } from './settings/settings.component';
+import { InfoComponent } from './info/info.component';
+import { DemoComponent } from './demo/demo.component';
+import { DocEditorComponent } from './doc-editor/doc-editor.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +62,12 @@ import { environment } from 'src/environments/environment';
     StoryEditorComponent,
     ChaptersComponent,
     EventsComponent,
-    EventEditorComponent
+    EventEditorComponent,
+    ProfileComponent,
+    SettingsComponent,
+    InfoComponent,
+    DemoComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -79,9 +94,14 @@ import { environment } from 'src/environments/environment';
     MatExpansionModule,
     TimelineComponent,
     NgxLeaderLineModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    //AngularFireModule.initializeApp(environment.firebaseConfig),
+    //AngularFireAuthModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
+    ToastrModule.forRoot(),
+    DocEditorComponent
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

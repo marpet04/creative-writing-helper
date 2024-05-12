@@ -1,0 +1,26 @@
+<div class="centering">
+    <mat-card class="reg-card">
+      <form [formGroup] = "pwChangeForm" (ngSubmit)="changePassword()">
+        <h2>Jelszó megváltoztatása</h2>
+        <mat-form-field>
+            <mat-label for="old_password">Régi jelszó</mat-label>
+            <input matInput type="password" formControlName="old_password" />
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+            <mat-label for="new_password">Új jelszó</mat-label>
+            <input matInput type="password" formControlName="new_password" />
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+            <mat-label for="new_password_again">Új jelszó megerősítése</mat-label>
+            <input matInput type="password" formControlName="new_password_again" />
+        </mat-form-field>
+        <br/>
+        <span> 
+          <button mat-raised-button color="primary" class="max-width" type="submit">MÓDOSÍTÁS</button>
+      </span>
+      </form>
+    </mat-card>
+</div>
+

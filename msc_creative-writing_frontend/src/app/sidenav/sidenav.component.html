@@ -2,10 +2,19 @@
     <button mat-icon-button (click)="switch()">
       <mat-icon>menu</mat-icon>
     </button>
+    <button mat-icon-button (click)="goToProfile()">
+        <mat-icon>person</mat-icon>
+    </button>
+    <button mat-icon-button (click)="goToSettings()">
+        <mat-icon>settings</mat-icon>
+    </button>
     <span>CWAT</span>
     <span class="example-spacer"></span>
     <span *ngIf="selectedStoryTitle">{{selectedStoryTitle}}</span>
     <span *ngIf="!selectedStoryTitle">Válassz ki egy Történetet!</span>
+    <button mat-icon-button (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
   </mat-toolbar>
 
 <mat-sidenav-container>

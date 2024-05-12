@@ -11,44 +11,72 @@ import { ChaptersComponent } from '../chapters/chapters.component';
 import { EventsComponent } from '../events/events.component';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { EventEditorComponent } from '../event-editor/event-editor.component';
+import { ProfileComponent } from '../profile/profile.component';
+import { SettingsComponent } from '../settings/settings.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { MenuGuard } from '../guards/menu.guard';
+import { NotFoundComponent } from '../not-found/not-found.component';
 
 const routes: Routes = [
   {
       path: '', component: SidenavComponent,
       children: [
         {
-          path: 'character-editor', component: CharacterEditorComponent
+          path: 'character-editor', component: CharacterEditorComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'dashboard', component: DashboardComponent
+          path: 'dashboard', component: DashboardComponent,
+          canActivate: [AuthGuard]
         },
         {
-          path: 'characters', component: CharactersComponent
+          path: 'characters', component: CharactersComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'character-connections', component: CharacterConnectionsComponent
+          path: 'character-connections', component: CharacterConnectionsComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'gallery', component: GalleryComponent
+          path: 'gallery', component: GalleryComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'doc-editor', component: DocEditorComponent
+          path: 'doc-editor', component: DocEditorComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'chapters', component: ChaptersComponent
+          path: 'chapters', component: ChaptersComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'events', component: EventsComponent
+          path: 'events', component: EventsComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'event-editor', component: EventEditorComponent
+          path: 'event-editor', component: EventEditorComponent,
+          canActivate: [AuthGuard, MenuGuard]
         },
         {
-          path: 'timeline', component: TimelineComponent
+          path: 'timeline', component: TimelineComponent,
+          canActivate: [AuthGuard, MenuGuard]
+        },
+        {
+          path: 'profile', component: ProfileComponent,
+          canActivate: [AuthGuard]
+        },
+        {
+          path: 'settings', component: SettingsComponent,
+          canActivate: [AuthGuard]
         }
 
       ]
-  }
+  },
+  {
+    path: 'not-found', 
+    component: NotFoundComponent
+  },
+  { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({

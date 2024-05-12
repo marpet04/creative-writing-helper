@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,8 +39,8 @@ public class StoryController {
     }
 
     @GetMapping("/getAllStories")
-    public ResponseEntity<List<Story>> getAllStories() throws InterruptedException, ExecutionException {
-        return new ResponseEntity<>(storyService.getAllStories(), HttpStatus.OK);
+    public ResponseEntity<List<Story>> getAllStories(@RequestHeader String author) throws InterruptedException, ExecutionException {
+        return new ResponseEntity<>(storyService.getAllStories(author), HttpStatus.OK);
     }
 
     @GetMapping("/getStory")

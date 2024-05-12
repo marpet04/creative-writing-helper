@@ -35,4 +35,13 @@ public class GalleryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ImageDTO("Error uploading image", null));
         }
     }
+    @PostMapping(value = "/deleteImage/{storyID}")
+    public ResponseEntity<String> deleteImage(@PathVariable("storyID") String id, @RequestParam String fileName) {
+        try {
+            return new ResponseEntity<>(galleryService.deleteImage(id, fileName), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting image");
+        }
+    }
 }

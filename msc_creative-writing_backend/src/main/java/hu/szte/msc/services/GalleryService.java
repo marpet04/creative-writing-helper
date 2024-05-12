@@ -45,4 +45,38 @@ public class GalleryService {
         return null;
     }
 
+    public String deleteImage(String storyID, String fileName) {
+        try {
+            Story story = storyService.getStory(storyID);
+            List<Image> images = story.getGallery().getImages();
+            
+            Image imageToRemove = null;
+            for (Image image : images) {
+                System.out.println(image.getFileName());
+                if (fileName.equals(image.getFileName())) {
+                    imageToRemove = image;
+                    System.out.println("Found file, fileName: " + fileName);
+                    break;
+                }
+            }
+            
+            if (imageToRemove != null) {
+                images.remove(imageToRemove);
+                System.out.println("-------Sikeres törlés?: " + fileName);
+                for (Image im : images) {
+                    System.out.println(im.getFileName());
+                }
+                story.setGallery(new Gallery(images));
+                storyService.updateStory(story);
+                return galleryRepository.deleteImage(fileName);
+            } else {
+                System.out.println("Nem található a kép a galériában: " + fileName);
+                return "Nem található a kép a galériában: " + fileName;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "A törlés során hiba lépett fel";
+    }
+
 }

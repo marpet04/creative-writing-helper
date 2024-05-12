@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ChapterService } from '../services/chapter.service';
 import { StoryChapter } from '../models/StoryChapter';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-character-editor',
@@ -30,7 +31,7 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
 
   constructor(private storyCharacterService: StoryCharacterService, 
               private router: Router, private injector: Injector, 
-              private chapterService: ChapterService) {
+              private chapterService: ChapterService, private toastr: ToastrService) {
       this.dialogRef = this.injector.get(MatDialogRef, null);
       this.data = this.injector.get(MAT_DIALOG_DATA, null);
   }
@@ -61,6 +62,7 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
         this.storyCharacterService.updateCharacter(this.character).subscribe({
           next: (data) => {
             console.log(data);
+            this.showSuccess();
             this.router.navigateByUrl("/nav/characters");
           }
         });
@@ -68,6 +70,7 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
         this.storyCharacterService.createCharacter(this.character).subscribe({
           next: (data) => {
             console.log(data);
+            this.showSuccess();
             this.router.navigateByUrl("/nav/characters");
           }
         });
@@ -78,6 +81,16 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
     closeDialog() {
       this.dialogRef?.close();
       this.router.navigateByUrl("/nav/characters");
+    }
+
+    showSuccess() {
+      this.toastr.success('Karakter sikeres mentése megtörtént!', 'Karakter tervező');
+    }
+  
+    showFailure() {
+      this.toastr.error('Sikertelen mentés, hiba lépett fel!', 'Karakter tervező', {
+        closeButton: true
+      });
     }
 
 

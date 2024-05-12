@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
@@ -14,7 +15,6 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 
 import hu.szte.msc.entities.StoryCharacter;
 
@@ -22,8 +22,15 @@ import hu.szte.msc.entities.StoryCharacter;
 public class StoryCharacterRepository {
 
     private static final String CHARACTER_TABLE_NAME = "characters";
-    private Firestore db = FirestoreClient.getFirestore();
-    private CollectionReference COLL_REF = db.collection(CHARACTER_TABLE_NAME);
+
+    private final Firestore firestore;
+    private CollectionReference COLL_REF;
+
+    @Autowired
+    public StoryCharacterRepository(Firestore firestore) {
+        this.firestore = firestore;
+        this.COLL_REF = this.firestore.collection(CHARACTER_TABLE_NAME);
+    }
     
 
     public StoryCharacter createCharacter(StoryCharacter character) {

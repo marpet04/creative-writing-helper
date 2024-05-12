@@ -12,4 +12,8 @@ export class GalleryServiceService {
   uploadImage(id: string, im: FormData): Observable<any> {
     return this.http.post<any>('http://localhost:8080/api/gallery/uploadImage/' + id, im);
   }
+
+  deleteImage(id: string, fileName: string): Observable<any> {
+    return this.http.post('http://localhost:8080/api/gallery/deleteImage/' + id, null, {params: {fileName}, responseType: 'text'});
+  }
 }

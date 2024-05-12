@@ -1,0 +1,25 @@
+<mat-toolbar class="toolbar">
+    <span>CWAT</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button [routerLink]="['/starter']">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button [routerLink]="['/login']">
+      <mat-icon>person_pin</mat-icon>
+    </button>
+    <button mat-icon-button [routerLink]="['/demo']">
+        <mat-icon>toys</mat-icon>
+    </button>
+</mat-toolbar>
+<div class="info">
+    <mat-card>
+        <mat-card-header>Információ az oldalról</mat-card-header>
+        <mat-card-content>
+            Ez az oldal egy diplomamunka, ami az SZTE-n készült, egy témakört hivatott bemutatni.
+            Egy könyv vagy egy hosszabb dokumentum megírása nemcsak egy ötletből áll.
+            Egy ilyen folyamat rengeteg tervezést és előrelátást igényel, ami könnyen elveheti az amúgy jó ötlettől a motivációt.
+            Szakdolgozatom témája egy olyan szoftver készítése, ami segít a megvalósítás mellett a tervezésben is,
+             és átláthatóvá teszi annak a folyamatát, hogy az ötlet ne vesszen el már a kezdeti szakaszokban.
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Validators } from 'ngx-editor';
+import { SharedDataService } from '../services/shared-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,36 +13,29 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class LoginComponent {
 
   loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl('')
+    email: new FormControl('', Validators.required()),
+    password: new FormControl('', Validators.required())
   });
 
-  constructor() { }
+  constructor(private authService: AuthService, private sharedData: SharedDataService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login() {
-    /*this.authservice.login(this.loginForm.value.email, this.loginForm.value.password)
-    .then(cred => {
-      console.log(cred);
-      if (!this.isSlideChecked) {
-        localStorage.setItem('role', 'patient');
-      } else if (this.isSlideChecked && this.loginForm.value.doctor_id) {
-        localStorage.setItem('role', 'doctor');
-      } else {
-        alert("Nem töltötted ki az orvosnak kötelező mezőket!");
-      }
-      this.router.navigateByUrl('/home');
-    }).catch(err => {
-      alert(err.message);
-    })*/
-    console.log("Sikeres bejelentkezés!");
+    this.authService.login(this.loginForm.value.email!, this.loginForm.value.password!);
+      this.authService.getUser(this.loginForm.value.email!).subscribe((user: any) => {
+        this.sharedData.setUser({
+          username: user.username,
+          email: user.email,
+          id: user.id
+        });
+        console.log({
+          username: user.username,
+          email: user.email,
+          id: user.id
+        });
+        this.router.navigate(['/nav/dashboard']);
+    })
   }
-
-  
-  /*toggleChanges($event: MatSlideToggleChange) {
-    this.isSlideChecked = $event.checked;
-    console.log(this.isSlideChecked);
-}*/
 }

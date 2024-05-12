@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Story } from '../models/Story';
 import { Observable } from 'rxjs';
@@ -18,8 +18,12 @@ export class StoryService {
     return this.http.post('http://localhost:8080/api/story/updateStory', story);
   }
 
-  getAllStories(): Observable<any> {
-    return this.http.get('http://localhost:8080/api/story/getAllStories');
+  getAllStories(author: string): Observable<any> {
+    let headers = new HttpHeaders({
+      'author': author
+    });
+    let options = { headers: headers };
+    return this.http.get('http://localhost:8080/api/story/getAllStories', options);
   }
 
   deleteStory(id: string): Observable<any> {

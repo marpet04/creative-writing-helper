@@ -5,6 +5,7 @@ import { EventService } from '../services/event.service';
 import { Router } from '@angular/router';
 import { ChapterService } from '../services/chapter.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-event-editor',
@@ -28,7 +29,7 @@ export class EventEditorComponent implements OnInit, OnChanges{
 
   constructor(private storyEventService: EventService, 
     private router: Router, private injector: Injector, 
-    private chapterService: ChapterService) {
+    private chapterService: ChapterService, private toastr: ToastrService) {
     this.dialogRef = this.injector.get(MatDialogRef, null);
     this.data = this.injector.get(MAT_DIALOG_DATA, null);
   }
@@ -57,6 +58,7 @@ export class EventEditorComponent implements OnInit, OnChanges{
       this.storyEventService.updateStoryEvent(this.event).subscribe({
         next: (data) => {
           console.log(data);
+          this.showSuccess();
           this.router.navigateByUrl("/nav/events");
         }
       });
@@ -64,6 +66,7 @@ export class EventEditorComponent implements OnInit, OnChanges{
       this.storyEventService.createStoryEvent(this.event).subscribe({
         next: (data) => {
           console.log(data);
+          this.showSuccess();
           this.router.navigateByUrl("/nav/events");
         }
       });
@@ -74,6 +77,16 @@ export class EventEditorComponent implements OnInit, OnChanges{
   closeDialog() {
     this.dialogRef?.close();
     this.router.navigateByUrl("/nav/events");
+  }
+
+  showSuccess() {
+    this.toastr.success('Az esemény elmentve! Ne felejtsd el az Idővonalon beállítani a helyét a Történetben!', 'Esemény mentés');
+  }
+
+  showFailure() {
+    this.toastr.error('Sikertelen mentés, hiba lépett fel!', 'Esemény mentés', {
+      closeButton: true
+    });
   }
 
 }

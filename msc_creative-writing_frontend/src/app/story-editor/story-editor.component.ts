@@ -3,6 +3,9 @@ import { Story } from '../models/Story';
 import { StoryService } from '../services/story.service';
 import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { SharedDataService } from '../services/shared-data.service';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-story-editor',
@@ -20,11 +23,20 @@ export class StoryEditorComponent implements OnInit, OnChanges{
     }
   }
 
+  user: User = {
+    username: '',
+    email: '',
+    id: ''
+  }
+
   private dialogRef;
   private data;
 
   constructor(private storyService: StoryService, 
-              private router: Router, private injector: Injector) {
+              private router: Router, 
+              private injector: Injector, 
+              private toastr: ToastrService,
+              private sharedData: SharedDataService) {
       this.dialogRef = this.injector.get(MatDialogRef, null);
       this.data = this.injector.get(MAT_DIALOG_DATA, null);
   }
@@ -36,6 +48,7 @@ export class StoryEditorComponent implements OnInit, OnChanges{
     this.story.title = this.data?.info?.title ?? '';
     this.story.description = this.data?.info?.description ?? '';
     this.story.docID = this.data?.info?.docID ?? '';
+    this.story.author = this.sharedData.getUserId()!;
   }
 
     onSubmit(){
@@ -44,6 +57,7 @@ export class StoryEditorComponent implements OnInit, OnChanges{
         this.storyService.updateStory(this.story).subscribe({
           next: (data) => {
             console.log(data);
+            this.showSuccess();
             this.router.navigateByUrl("/nav/dashboard");
           }
         });
@@ -51,6 +65,7 @@ export class StoryEditorComponent implements OnInit, OnChanges{
         this.storyService.createStory(this.story).subscribe({
           next: (data) => {
             console.log(data);
+            this.showSuccess();
             this.router.navigateByUrl("/nav/dashboard");
           }
         });
@@ -61,5 +76,15 @@ export class StoryEditorComponent implements OnInit, OnChanges{
     closeDialog() {
       this.dialogRef?.close();
       this.router.navigateByUrl("/nav/dashboard");
+    }
+
+    showSuccess() {
+      this.toastr.success('Sikeres mentés!', 'Történet mentés');
+    }
+
+    showFailure() {
+      this.toastr.error('Sikertelen mentés, hiba lépett fel!', 'Történet mentés', {
+        closeButton: true
+      });
     }
 }

@@ -10,6 +10,7 @@ import { flatMap, forkJoin, mergeMap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TimelineObj } from '../models/TimelineObj';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-timeline',
@@ -25,7 +26,7 @@ export class TimelineComponent implements OnInit{
   filteredEvents : Map<string, Array<StoryEvent>> = new Map<string, Array<StoryEvent>>();
   updatedEvents : StoryEvent[] = [];
 
-  constructor(private chapterService: ChapterService, private eventService: EventService) {}
+  constructor(private chapterService: ChapterService, private eventService: EventService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getEventsAndChapters();
@@ -123,6 +124,7 @@ export class TimelineComponent implements OnInit{
       events: this.updatedEvents
     }).subscribe(eventMessage => {
       console.log(eventMessage);
+      this.showSuccess();
     });
 
     this.updatedEvents = [];
@@ -130,6 +132,16 @@ export class TimelineComponent implements OnInit{
 
   goBack() {
     this.ngOnInit();
+  }
+
+  showSuccess() {
+    this.toastr.success('A sorrend sikeres mentése megtörtént!', 'Idővonal mentése');
+  }
+
+  showFailure() {
+    this.toastr.error('Sikertelen mentés, hiba lépett fel!', 'Idővonal mentése', {
+      closeButton: true
+    });
   }
 
 }

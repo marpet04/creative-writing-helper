@@ -13,6 +13,8 @@ import { SharedDataService } from '../services/shared-data.service';
 import { ChapterService } from '../services/chapter.service';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-doc-editor',
@@ -25,14 +27,17 @@ import { MatButtonModule } from '@angular/material/button';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule
   ],
   styleUrl: './doc-editor.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class DocEditorComponent implements OnInit, OnDestroy{
 
-  constructor(private sharedData : SharedDataService, private chapterService : ChapterService, private router: Router) {}
+  constructor(private sharedData : SharedDataService, private chapterService : ChapterService, private router: Router, private toastr: ToastrService) {}
+  
+  demo: boolean = true;
 
   editor: Editor = new Editor();
 
@@ -62,6 +67,9 @@ export class DocEditorComponent implements OnInit, OnDestroy{
   });
 
   ngOnInit(): void {
+    if (localStorage.getItem('custom_token') != null) {
+      this.demo = false;
+    }
     this.editor = new Editor({
       content: '',
       history: true,
@@ -73,15 +81,16 @@ export class DocEditorComponent implements OnInit, OnDestroy{
       attributes: {},
       linkValidationPattern: ''
     });
-
-    let temp_chap = this.sharedData.getSelectedChapter();
-    if (temp_chap) {
-      this.chapterService.getChapter(temp_chap).subscribe(c => {
-        this.chapter = c;
-        console.log(c);
-        this.editorForm.controls.title.setValue(this.chapter.title);
-        this.editorForm.controls.editorContent.setValue(this.chapter.body);
-      });
+    if (this.demo === false) {
+      let temp_chap = this.sharedData.getSelectedChapter();
+      if (temp_chap) {
+        this.chapterService.getChapter(temp_chap).subscribe(c => {
+          this.chapter = c;
+          console.log(c);
+          this.editorForm.controls.title.setValue(this.chapter.title);
+          this.editorForm.controls.editorContent.setValue(this.chapter.body);
+        });
+      }
     }
   }
 
@@ -94,6 +103,7 @@ export class DocEditorComponent implements OnInit, OnDestroy{
       }
       this.chapterService.createChapter(this.chapter).subscribe(ch => {
         console.log(ch);
+        this.showSuccess();
       });
     } else {
       this.chapter = {
@@ -104,6 +114,7 @@ export class DocEditorComponent implements OnInit, OnDestroy{
       }
       this.chapterService.updateChapter(this.chapter).subscribe(ch => {
         console.log(ch);
+        this.showSuccess();
       });
     }
   }
@@ -115,5 +126,15 @@ export class DocEditorComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.editor.destroy();
+  }
+
+  showSuccess() {
+    this.toastr.success('A Fejezet elmentve!', 'Fejezet mentés');
+  }
+
+  showFailure() {
+    this.toastr.error('Sikertelen mentés, hiba lépett fel!', 'Fejezet mentés', {
+      closeButton: true
+    });
   }
 }

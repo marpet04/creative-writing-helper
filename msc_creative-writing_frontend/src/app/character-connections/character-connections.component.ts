@@ -8,6 +8,8 @@ import { ConfigurationService } from '../services/configuration.service';
 import { forkJoin, mergeMap } from 'rxjs';
 import { CharacterObject } from '../models/CharacterObject';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { MatTable } from '@angular/material/table';
 
 export type Color = {
   color: string,
@@ -42,6 +44,8 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
     }
   ];
 
+  @ViewChild(MatTable) table: MatTable<Color> | undefined;
+
   displayedColumns: string[] = ['color', 'connection', 'choice'];
 
   linesOnBoard: LineObject[] = [];
@@ -52,7 +56,7 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
   linesToBeDeleted: LineObject[] = [];
   color: string = 'coral';
 
-  constructor(private storyCharacterService: StoryCharacterService, private configService: ConfigurationService, public dialog: MatDialog, private router: Router) {}
+  constructor(private storyCharacterService: StoryCharacterService, private configService: ConfigurationService, public dialog: MatDialog, private router: Router, private toastr: ToastrService) {}
   ngOnDestroy(): void {
     this.leaderlines.forEach((line) => {
       line.remove();
@@ -168,23 +172,11 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
     document.getElementById(start)!.addEventListener('click', () => {
       line.position();
     }, false);
-    
-    let svg_class = Array.from(document.querySelectorAll("svg"));
-    let indexLine = 0
-    for(let svg of svg_class) {
-      if (svg.getAttribute("class") == "leader-line") {
-        indexLine += 1;
-        svg.setAttribute("elementId", indexLine as unknown as string);
-        console.log("----------------------------");
-        console.log(svg);
-      }
-      
-    }
   }
 
   removeLine(start: string, end: string) {
     if (this.leaderlines.length == 0) {
-      console.log("Üres tömbből nem lehet törölni!");
+      this.showFailure("Üres tömbből nem lehet törölni!");
     } else {
       for (let l of this.leaderlines) {
         console.log(l);
@@ -192,7 +184,7 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
         let endElement = l.end as HTMLElement;
         if(startElement.id == start && endElement.id == end) {
           l.remove();
-          console.log("Törölve!");
+          this.showSuccess('Vonal sikeresen törölve a tömbből!')
           let i = 0;
           for(let o of this.addedLinesOnBoard) {
             if (o.start == start && o.end == end) {
@@ -250,7 +242,9 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
     this.color = color;
   }
 
-  addRow() {}
+  addRow() {
+    
+  }
 
   save() {
     console.log(this.addedLinesOnBoard);
@@ -259,6 +253,7 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
         console.log(lineObj);
       });
     }
+    this.showSuccess('Vonalak elmentve!');
     this.linesOnBoard = this.linesOnBoard.concat(this.addedLinesOnBoard);
     this.addedLinesOnBoard = [];
 
@@ -270,6 +265,7 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
       })
     }
 
+    this.showSuccess('Kapcsolatok törölve!');
     this.linesToBeDeleted = [];
 
     for (let co of this.tempCharacterObjectPositions) {
@@ -289,6 +285,8 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
       }
     }
 
+    this.showSuccess('Karakterek pozíciói elmentve!');
+
     this.tempCharacterObjectPositions = new Map<string, CharacterObject>();
     this.leaderlines.forEach((line) => {
       line.remove();
@@ -299,6 +297,16 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
 
   goBack() {
     this.router.navigateByUrl("/nav/characters");
+  }
+
+  showSuccess(message: string) {
+    this.toastr.success(message, 'Karakter kapcsolatok');
+  }
+
+  showFailure(message: string) {
+    this.toastr.error(message, 'Karakter kapcsolatok', {
+      closeButton: true
+    });
   }
 
 

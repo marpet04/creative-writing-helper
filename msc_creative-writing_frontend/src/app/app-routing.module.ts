@@ -5,6 +5,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { StarterComponent } from './starter/starter.component';
+import { InfoComponent } from './info/info.component';
+import { DemoComponent } from './demo/demo.component';
+import { AuthGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -20,10 +24,22 @@ const routes: Routes = [
     component: RegistrationComponent
   },
   {
+    path: 'info', 
+    component: InfoComponent
+  },
+  {
+    path: 'demo', 
+    component: DemoComponent
+  },
+  {
+    path: 'not-found', 
+    component: NotFoundComponent
+  },
+  {
     path: 'nav',
     loadChildren: () => import('./sidenav/sidenav.module').then(m => m.SidenavModule)
   },
-  { path: '**', redirectTo: '/registration' }
+  { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({

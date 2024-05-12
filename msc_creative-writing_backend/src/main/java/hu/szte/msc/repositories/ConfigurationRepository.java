@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
@@ -21,8 +22,15 @@ import hu.szte.msc.entities.Line;
 public class ConfigurationRepository {
 
     private static final String CONFIG_TABLE_NAME = "configuration";
-    private Firestore db = FirestoreClient.getFirestore();
-    private CollectionReference COLL_REF = db.collection(CONFIG_TABLE_NAME);
+
+    private final Firestore firestore;
+    private CollectionReference COLL_REF;
+
+    @Autowired
+    public ConfigurationRepository(Firestore firestore) {
+        this.firestore = firestore;
+        this.COLL_REF = this.firestore.collection(CONFIG_TABLE_NAME);
+    }
 
     public Line createLine(Line line) {
         String docId = COLL_REF.document().getId();
