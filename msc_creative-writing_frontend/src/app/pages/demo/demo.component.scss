@@ -1,0 +1,52 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+.toolbar {
+    background-color: #610216;
+}
+
+mat-card {
+    min-height: 400px;
+    min-width: 600px;
+    display: flex;
+    background-color: #fbf6f0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin: 5px;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.info {
+    min-height: fit-content;
+}
+
+.radio {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+}
+
+.mat-mdc-radio-button.mat-accent {
+    --mdc-radio-disabled-selected-icon-color: rgb(233, 124, 124);
+    --mdc-radio-disabled-unselected-icon-color: rgb(233, 124, 124);
+    --mdc-radio-unselected-hover-icon-color: #7dd454;
+    --mdc-radio-unselected-icon-color: rgba(135, 155, 219, 0.54);
+    --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
+}
+
+.mat-mdc-radio-button {
+    --mdc-form-field-label-text-color: black;
+}
+
+.charName {
+    height: 100px;
+    width: 300px;
+}
+
+.description {
+    min-height: 300px;
+    min-width: 500px;
+}

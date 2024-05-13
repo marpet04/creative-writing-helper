@@ -1,0 +1,19 @@
+mat-card {
+    flex: 1;
+    min-width: 300px;
+    min-height: 200px;
+    margin: 4px;
+    align-items: center;
+    background-color: antiquewhite;
+    color: black;
+}
+
+.card {
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 1;
+}
+
+mat-icon {
+    color: black;
+}

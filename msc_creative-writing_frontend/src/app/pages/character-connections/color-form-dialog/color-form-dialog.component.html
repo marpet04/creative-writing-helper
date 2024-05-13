@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Új szín hozzáadása</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(colorPicker)]="newColor.colorCode" name="color" [style.background]="newColor.colorCode" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Kapcsolat" [(ngModel)]="newColor.colorName" name="connection" required>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Mégse</button>
+  <button mat-button color="primary" (click)="addColor()">Hozzáadás</button>
+</div>

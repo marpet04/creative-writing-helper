@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.szte.msc.entities.CharacterPosition;
+import hu.szte.msc.entities.Color;
 import hu.szte.msc.entities.Line;
 import hu.szte.msc.repositories.ConfigurationRepository;
 
@@ -60,6 +61,26 @@ public class ConfigurationController {
     @DeleteMapping("/removeLine/{id}")
     public ResponseEntity<String> removeLine(@PathVariable("id") String id) throws InterruptedException, ExecutionException {
         return new ResponseEntity<>(configurationRepository.removeLine(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllColors/{storyID}")
+    public ResponseEntity<List<Color>> getAllColors(@PathVariable("storyID") String storyID) throws InterruptedException, ExecutionException {
+        return new ResponseEntity<>(configurationRepository.getAllColors(storyID), HttpStatus.OK);
+    }
+
+    @PostMapping("/updateColor")
+    public ResponseEntity<Color> updateColorList(@RequestBody Color color) {
+        return new ResponseEntity<>(configurationRepository.updateColor(color), HttpStatus.OK);
+    }
+
+    @PostMapping("/createColor")
+    public ResponseEntity<Color> createColor(@RequestBody Color color) {
+        return new ResponseEntity<>(configurationRepository.createColor(color), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/removeColor/{id}")
+    public ResponseEntity<String> removeColor(@PathVariable("id") String id) throws InterruptedException, ExecutionException {
+        return new ResponseEntity<>(configurationRepository.removeColor(id), HttpStatus.OK);
     }
 
 }

@@ -1,0 +1,22 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+.toolbar {
+    background-color: #610216;
+}
+
+.not-found {
+    background-image: url(../../../assets/undraw_Page_not_found_re_e9o6.png);
+
+    height: 90vh;
+    background-repeat: no-repeat;
+    object-fit: fill;
+    background-size: 50%;
+    background-position: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}

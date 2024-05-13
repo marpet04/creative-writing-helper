@@ -22,14 +22,17 @@ import hu.szte.msc.entities.StoryCharacter;
 public class StoryCharacterRepository {
 
     private static final String CHARACTER_TABLE_NAME = "characters";
+    private static final String CONFIGURATION_TABLE_NAME = "configuration";
 
     private final Firestore firestore;
     private CollectionReference COLL_REF;
+    private CollectionReference COLL_REF_CONF;
 
     @Autowired
     public StoryCharacterRepository(Firestore firestore) {
         this.firestore = firestore;
         this.COLL_REF = this.firestore.collection(CHARACTER_TABLE_NAME);
+        this.COLL_REF_CONF = this.firestore.collection(CONFIGURATION_TABLE_NAME);
     }
     
 
@@ -62,7 +65,7 @@ public class StoryCharacterRepository {
         return character;
     }
 
-    public String deleteCharacter(String docID) {
+    public String deleteCharacter(String docID) throws InterruptedException, ExecutionException {
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
         try {
             future.get();

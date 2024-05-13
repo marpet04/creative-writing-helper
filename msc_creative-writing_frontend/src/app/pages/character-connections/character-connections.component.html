@@ -1,0 +1,66 @@
+<div class="container">
+            <div class="tray">
+                <ng-container *ngFor="let character of characters">
+                <div id="{{character.name}}" class="icons" cdkDragBoundary=".container" cdkDrag (click)="getClick(character.name)" (mouseup)="getPosition(character.name)">
+                        <mat-icon matTooltip="{{character.name}}">face</mat-icon>
+                        <p>{{character.name}}</p>
+                </div>
+            </ng-container>
+            </div>
+        <div class="colors" *ngIf="colors" cdkDrag>
+            <table mat-table [dataSource]="colors" class="mat-elevation-z8" style="min-width: 20%;">
+                <ng-container matColumnDef="colorCode">
+                <th mat-header-cell *matHeaderCellDef> Szín </th>
+                <td mat-cell *matCellDef="let element">
+                    <input [(colorPicker)]="element.colorCode" [style.background]="element.colorCode" (colorPickerChange)="changeColor(element)"/> 
+                </td>
+                </ng-container>
+
+                <ng-container matColumnDef="colorName">
+                <th mat-header-cell *matHeaderCellDef> Kapcsolat </th>
+                <td mat-cell *matCellDef="let element"> {{element.colorName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="choice">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-button (click)="getColor(element.colorCode)">
+                            Kiválasztás
+                        </button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-button (click)="deleteColor(element)">
+                            Törlés
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <button mat-fab extended (click)="openColorFormDialog()">
+                <mat-icon>library_add</mat-icon>
+                Kapcsolattípus hozzáadása
+            </button>
+            <button [ngClass]="{'activeButton': connect_btn}" mat-fab extended (click)="this.connect_btn = !this.connect_btn">
+                <mat-icon>group_add</mat-icon>
+                Kapcsolat hozzáadása
+            </button>
+            <button [ngClass]="{'activeButton': disconnect_btn}" mat-fab extended (click)="this.disconnect_btn = !this.disconnect_btn">
+                <mat-icon>clear_all</mat-icon>
+                Kapcsolat törlése
+            </button>
+        </div>
+</div>
+<button mat-button (click)="save()">
+    <mat-icon>done</mat-icon>
+    Kapcsolatok mentése
+  </button>
+  <button mat-button (click)="goBack()">
+    <mat-icon>close</mat-icon>
+    Kapcsolatok elvetése
+  </button>

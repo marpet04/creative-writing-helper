@@ -1,0 +1,19 @@
+.event-card {
+    max-width: 400px;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: auto;
+    position: relative;
+    top: 0; bottom: 0; left: 0; right: 0;
+    text-align: center;
+  }
+
+.event-card mat-form-field {
+    max-width: 400px;
+    min-width: 300px;
+}
+
+#note {
+    min-height: 100px;
+}

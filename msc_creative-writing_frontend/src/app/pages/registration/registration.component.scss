@@ -1,0 +1,61 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+
+span {
+    padding: 5px 5px 5px 5px;
+}
+
+mat-form-field {
+    width: 100%;
+    align-self: center;
+}
+
+div {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 70vh;
+}
+
+mat-card {
+    min-height: 600px;
+    min-width: 600px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: #fbf6f0;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+.toolbar {
+    background-color: #610216;
+}
+
+.reg {
+    background-image: url(../../../assets/undraw_learning_sketching_nd4f.png);
+
+    height: 90vh;
+    background-repeat: no-repeat;
+    object-fit: fill;
+    background-size: 40%;
+    background-position-x: 20px;
+    background-position-y: 200px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}

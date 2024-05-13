@@ -1,2 +1,3 @@
 msc_creative-writing_frontend/src/environments/environment.ts
 msc_creative-writing_backend/src/main/resources/serviceAccountKey.json
+msc_creative-writing_backend/src/main/resources/application.properties

@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CharacterEditorComponent } from './character-editor/character-editor.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { StarterComponent } from './starter/starter.component';
-import { InfoComponent } from './info/info.component';
-import { DemoComponent } from './demo/demo.component';
-import { AuthGuard } from './guards/auth.guard';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { CharacterEditorComponent } from './pages/character-editor/character-editor.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
+import { StarterComponent } from './pages/starter/starter.component';
+import { InfoComponent } from './pages/info/info.component';
+import { DemoComponent } from './pages/demo/demo.component';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
-    path: '', 
+    path: 'starter', 
     component: StarterComponent
   },
   {
@@ -37,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: 'nav',
-    loadChildren: () => import('./sidenav/sidenav.module').then(m => m.SidenavModule)
+    loadChildren: () => import('./pages/sidenav/sidenav.module').then(m => m.SidenavModule)
   },
   { path: '**', redirectTo: 'not-found' }
 ];

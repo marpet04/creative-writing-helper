@@ -16,6 +16,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
 import hu.szte.msc.entities.CharacterPosition;
+import hu.szte.msc.entities.Color;
 import hu.szte.msc.entities.Line;
 
 @Service
@@ -89,5 +90,41 @@ public class ConfigurationRepository {
         }
         return null;  
     }
+
+    public Color createColor(Color color) {
+        String docId = COLL_REF.document().getId();
+        color.setDocID(docId);
+        color.setType("COL");
+        ApiFuture<WriteResult> future = COLL_REF.document(docId).set(color);
+        return color;
+    }
+
+    public List<Color> getAllColors(String storyID) throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = COLL_REF.whereEqualTo("type", "COL").whereEqualTo("storyID", storyID).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<Color> listOfColors = new ArrayList<>();
+        for (QueryDocumentSnapshot document : documents) {
+            listOfColors.add(document.toObject(Color.class));
+        }
+        return listOfColors;
+    }
+
+    public Color updateColor(Color color) {
+        color.setType("COL");
+        ApiFuture<WriteResult> future = COLL_REF.document(color.getDocID()).set(color);
+        return color;
+    }
+
+    public String removeColor(String docID) {
+        ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
+        try {
+            future.get();
+            return "Color successfully deleted!";
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;  
+    }
+
     
 }
