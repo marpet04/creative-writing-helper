@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,8 @@ import hu.szte.msc.repositories.GalleryRepository;
 
 @Service
 public class GalleryService {
+
+    Logger logger = LoggerFactory.getLogger(GalleryService.class);
 
     @Autowired
     private GalleryRepository galleryRepository;
@@ -52,25 +56,25 @@ public class GalleryService {
             
             Image imageToRemove = null;
             for (Image image : images) {
-                System.out.println(image.getFileName());
+                this.logger.debug(image.getFileName());
                 if (fileName.equals(image.getFileName())) {
                     imageToRemove = image;
-                    System.out.println("Found file, fileName: " + fileName);
+                    this.logger.debug("Found file, fileName: " + fileName);
                     break;
                 }
             }
             
             if (imageToRemove != null) {
                 images.remove(imageToRemove);
-                System.out.println("-------Sikeres törlés?: " + fileName);
+                this.logger.debug("-------Sikeres törlés?: " + fileName);
                 for (Image im : images) {
-                    System.out.println(im.getFileName());
+                    this.logger.debug(im.getFileName());
                 }
                 story.setGallery(new Gallery(images));
                 storyService.updateStory(story);
                 return galleryRepository.deleteImage(fileName);
             } else {
-                System.out.println("Nem található a kép a galériában: " + fileName);
+                this.logger.debug("Nem található a kép a galériában: " + fileName);
                 return "Nem található a kép a galériában: " + fileName;
             }
         } catch (InterruptedException | ExecutionException e) {
