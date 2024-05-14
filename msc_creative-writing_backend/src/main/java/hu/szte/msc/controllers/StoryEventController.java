@@ -3,6 +3,8 @@ package hu.szte.msc.controllers;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ import hu.szte.msc.services.StoryEventService;
 @RestController
 @RequestMapping("/api/event")
 public class StoryEventController {
+
+    Logger logger = LoggerFactory.getLogger(StoryEventController.class);
     
     @Autowired
     public StoryEventService eventService;
@@ -41,7 +45,7 @@ public class StoryEventController {
 
     @PostMapping("/updateTimeline")
     public ResponseEntity<TimelineUpdateDTO> updateTimeline(@RequestBody TimelineUpdateBulkDTO storyEvents) {
-        System.out.println(storyEvents);
+        this.logger.debug(storyEvents.toString());
         return new ResponseEntity<>(eventService.updateTimeline(storyEvents.events()), HttpStatus.OK);
     }
 

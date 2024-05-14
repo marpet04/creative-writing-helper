@@ -10,7 +10,6 @@ public class ChatGPTRequest {
         private int n;
         private double temperature;
         private final int max_tokens;
-        //private String system = "Viselkedj úgy, mintha egy szerepjátékos lennél és karakterneveket kell felsorolnod. A karakternevek legyenek teljes nevek, női és férfi vegyesen és a 18. századi Anglia területére legyenek jellemzőek. Csak a neveket add vissza.";
         private String system;
 
 

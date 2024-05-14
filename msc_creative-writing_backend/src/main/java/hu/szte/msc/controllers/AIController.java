@@ -1,5 +1,7 @@
 package hu.szte.msc.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,9 @@ import hu.szte.msc.services.OpenaiService;
 @RestController
 @RequestMapping("/api/chatgpt")
 public class AIController {
+
+    Logger logger = LoggerFactory.getLogger(AIController.class);
+
     @Autowired
     OpenaiService openaiService;
 
@@ -28,7 +33,7 @@ public class AIController {
             response = openaiService.getOpenaiResponse("", system);
 
         }catch (Exception e){
-            System.err.println(e.toString());
+            this.logger.error(e.toString());
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -41,7 +46,7 @@ public class AIController {
             response = openaiService.getOpenaiResponse("", system);
 
         }catch (Exception e){
-            System.err.println(e.toString());
+            this.logger.error(e.toString());
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -54,7 +59,7 @@ public class AIController {
             response = openaiService.getOpenaiResponse(chapter, system);
 
         }catch (Exception e){
-            System.err.println(e.toString());
+            this.logger.error(e.toString());
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

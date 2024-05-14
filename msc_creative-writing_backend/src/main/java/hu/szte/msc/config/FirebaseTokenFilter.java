@@ -8,6 +8,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 public class FirebaseTokenFilter extends OncePerRequestFilter {
+
+    Logger logger = LoggerFactory.getLogger(FirebaseTokenFilter.class);
 
     private final FirebaseAuth firebaseAuth;
 
@@ -26,29 +30,28 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authenticationHeader = request.getHeader("Authorization");
-        System.out.println(request.getRequestURL().toString().contains("public"));
         if(!(request.getRequestURL().toString().contains("public"))){
             if (authenticationHeader == null || !authenticationHeader.startsWith("Bearer ")) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                System.err.println("Not start with Bearer");
+                this.logger.error("Not start with Bearer");
                 return;
             }
             FirebaseToken decodedToken = null;
             try {
                 String token = authenticationHeader.substring(7, authenticationHeader.length());
                 decodedToken = firebaseAuth.verifyIdToken(token);
-                System.err.println("Token: "+token);
-                System.err.println("decoded token "+decodedToken.getEmail());
+                this.logger.error("Token: "+token);
+                this.logger.error("decoded token "+decodedToken.getEmail());
             } catch (FirebaseAuthException e) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                System.err.println("Exception");
-                System.err.println(e.toString());
+                this.logger.error("Exception");
+                this.logger.error(e.toString());
                 return;
             }
 
             if (decodedToken == null) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                System.err.println("decodedtoken is null");
+                this.logger.error("decodedtoken is null");
                 return;
             }
         }

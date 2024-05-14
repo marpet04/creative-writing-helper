@@ -23,7 +23,6 @@ public class FirebaseConfig {
 
         URL url = classLoader.getResource("serviceAccountKey.json");
         if (url != null) {
-            System.out.println(url.getFile()); // This will print the path to the resource within the JAR
             InputStream serviceAccount = url.openStream(); // Open the stream directly from the URL
         
 

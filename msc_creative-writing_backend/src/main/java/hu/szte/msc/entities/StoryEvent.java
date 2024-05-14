@@ -54,6 +54,13 @@ public class StoryEvent {
         this.note = note;
         this.index = index;
     }
+    @Override
+    public String toString() {
+        return "StoryEvent [docID=" + docID + ", chapterID=" + chapterID + ", storyID=" + storyID + ", title=" + title
+                + ", note=" + note + ", index=" + index + "]";
+    }
+
+    
 
     
     
