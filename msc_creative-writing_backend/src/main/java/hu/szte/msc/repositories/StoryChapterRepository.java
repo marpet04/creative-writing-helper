@@ -82,13 +82,8 @@ public class StoryChapterRepository {
         }
 
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
-        try {
-            future.get();
-            return "Chapter successfully deleted!";
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;  
+        future.get();
+        return "Fejezet törlése sikeres!";  
     }
     
 }

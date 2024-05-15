@@ -27,7 +27,6 @@ public class UserService {
         try {
             return userRepository.getUserByEmail(email);
         } catch (InterruptedException | ExecutionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

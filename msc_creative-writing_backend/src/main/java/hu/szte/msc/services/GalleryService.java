@@ -28,9 +28,10 @@ public class GalleryService {
     @Autowired
     private StoryService storyService;
     
-    public ImageDTO uploadImage(String id, MultipartFile file) throws IOException {
+    public ImageDTO uploadImage(String id, MultipartFile file) {
+        ImageDTO imageDTO;
         try {
-            ImageDTO imageDTO = galleryRepository.uploadImage(file);
+            imageDTO = galleryRepository.uploadImage(file);
             Story story = storyService.getStory(id);
             List<Image> images = story.getGallery().getImages();
             List<ImageDTO> dtos = new ArrayList<>();
@@ -42,15 +43,14 @@ public class GalleryService {
             story.setGallery(new Gallery(images));
             storyService.updateStory(story);
             return imageDTO;
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         return null;
     }
 
     public String deleteImage(String storyID, String fileName) {
-        try {
             Story story = storyService.getStory(storyID);
             List<Image> images = story.getGallery().getImages();
             
@@ -77,10 +77,6 @@ public class GalleryService {
                 this.logger.debug("Nem található a kép a galériában: " + fileName);
                 return "Nem található a kép a galériában: " + fileName;
             }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return "A törlés során hiba lépett fel";
     }
 
 }

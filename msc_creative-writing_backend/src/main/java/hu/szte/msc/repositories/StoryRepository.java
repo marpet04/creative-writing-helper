@@ -85,13 +85,8 @@ public class StoryRepository {
         }
 
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
-        try {
-            future.get();
-            return "Story successfully deleted!";
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
+        future.get();
+        return "Történet törlése sikeres!";
     }
     
 }

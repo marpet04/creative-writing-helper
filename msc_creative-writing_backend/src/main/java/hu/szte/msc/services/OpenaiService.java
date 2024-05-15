@@ -54,8 +54,12 @@ public class OpenaiService {
         return evaulatedResponse;
     }
 
-    private String evaluateResponse(ChatGPTResponse response) throws MessageFailedException {
-        checkResponse(response);
+    private String evaluateResponse(ChatGPTResponse response) {
+        try {
+            checkResponse(response);
+        } catch (MessageFailedException e) {
+            e.printStackTrace();
+        }
         this.logger.debug(response.getChoices().toString());
         return response.getChoices().get(0).getMessage().getContent();
     }

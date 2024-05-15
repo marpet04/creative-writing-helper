@@ -23,16 +23,33 @@ public class StoryService {
         return storyRepository.updateStory(story);
     }
 
-    public List<Story> getAllStories(String author) throws InterruptedException, ExecutionException {
-        return storyRepository.getAllStories(author);
+    public List<Story> getAllStories(String author) {
+        try {
+            return storyRepository.getAllStories(author);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public Story getStory(String id) throws InterruptedException, ExecutionException {
-        return storyRepository.getStory(id);
+    public Story getStory(String id) {
+        try {
+            return storyRepository.getStory(id);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
-    public String deleteStory(String docID) throws InterruptedException, ExecutionException {
-        return storyRepository.deleteStory(docID);
+    public String deleteStory(String docID) {
+        try {
+            return storyRepository.deleteStory(docID);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return "A Történet mentése közben hiba lépett fel!";
     }
     
 }

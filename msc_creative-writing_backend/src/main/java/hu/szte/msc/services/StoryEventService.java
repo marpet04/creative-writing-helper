@@ -37,7 +37,14 @@ public class StoryEventService {
     }
 
     public TimelineUpdateDTO updateTimeline(List<StoryEvent> eventBulk) {
-        return storyEventRepository.updateTimeline(eventBulk);
+        try {
+            return storyEventRepository.updateTimeline(eventBulk);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return new TimelineUpdateDTO("Az idővonal mentése közben hiba lépett fel!");
+        
     }
     
 }

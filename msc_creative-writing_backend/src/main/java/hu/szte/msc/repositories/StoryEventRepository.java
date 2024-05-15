@@ -67,18 +67,13 @@ public class StoryEventRepository {
         return event;
     }
 
-    public String deleteStoryEvent(String docID) {
+    public String deleteStoryEvent(String docID) throws InterruptedException, ExecutionException {
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
-        try {
-            future.get();
-            return "Event successfully deleted!";
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;  
+        future.get();
+        return "Esemény törlése sikeres!";
     }
 
-    public TimelineUpdateDTO updateTimeline(List<StoryEvent> eventBulk) {
+    public TimelineUpdateDTO updateTimeline(List<StoryEvent> eventBulk) throws InterruptedException, ExecutionException {
 
         WriteBatch batch = this.firestore.batch();
 
@@ -89,17 +84,11 @@ public class StoryEventRepository {
 
         ApiFuture<List<WriteResult>> future = batch.commit();
   
-        try {
-            for (WriteResult result : future.get()) {
-                this.logger.debug("Update time : " + result.getUpdateTime());
-            }
-
-            return new TimelineUpdateDTO("Timeline save was successful!");
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        for (WriteResult result : future.get()) {
+            this.logger.debug("Update time : " + result.getUpdateTime());
         }
 
-        return new TimelineUpdateDTO("Timeline save was NOT successful!");
+        return new TimelineUpdateDTO("Az idővonal mentése sikeres volt!");
 
     }
     

@@ -67,13 +67,8 @@ public class StoryCharacterRepository {
 
     public String deleteCharacter(String docID) throws InterruptedException, ExecutionException {
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
-        try {
-            future.get();
-            return "Character successfully deleted!";
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;  
+        future.get();
+        return "Karakter törlése sikeres!"; 
     }
     
 }

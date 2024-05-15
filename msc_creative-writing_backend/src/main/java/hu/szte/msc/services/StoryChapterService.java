@@ -27,12 +27,22 @@ public class StoryChapterService {
         return chapterRepository.getAllChapters(storyID);
     }
 
-    public StoryChapter getChapter(String id) throws InterruptedException, ExecutionException {
-        return chapterRepository.getChapter(id);
+    public StoryChapter getChapter(String id) {
+        try {
+            return chapterRepository.getChapter(id);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public String deleteChapter(String docID) throws InterruptedException, ExecutionException {
-        return chapterRepository.deleteChapter(docID);
+    public String deleteChapter(String docID) {
+        try {
+            return chapterRepository.deleteChapter(docID);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "A fejezet törlése során hiba lépett fel!";
     }
     
 }

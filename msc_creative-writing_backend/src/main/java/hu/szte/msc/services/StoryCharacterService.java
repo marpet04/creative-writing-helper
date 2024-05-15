@@ -23,16 +23,31 @@ public class StoryCharacterService {
         return characterRepository.updateCharacter(character);
     }
 
-    public List<StoryCharacter> getAllCharacters(String storyID) throws InterruptedException, ExecutionException {
-        return characterRepository.getAllCharacters(storyID);
+    public List<StoryCharacter> getAllCharacters(String storyID) {
+        try {
+            return characterRepository.getAllCharacters(storyID);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public StoryCharacter getCharacter(String id) throws InterruptedException, ExecutionException {
-        return characterRepository.getCharacter(id);
+    public StoryCharacter getCharacter(String id) {
+        try {
+            return characterRepository.getCharacter(id);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public String deleteCharacter(String docID) throws InterruptedException, ExecutionException {
-        return characterRepository.deleteCharacter(docID);
+    public String deleteCharacter(String docID) {
+        try {
+            return characterRepository.deleteCharacter(docID);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "A Karakter törlése során hiba lépett fel!";
     }
     
 }

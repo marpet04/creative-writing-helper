@@ -79,15 +79,10 @@ public class ConfigurationRepository {
         return charPos;
     }
 
-    public String removeLine(String docID) {
+    public String removeLine(String docID) throws InterruptedException, ExecutionException {
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
-        try {
-            future.get();
-            return "Line successfully deleted!";
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;  
+        future.get();
+        return "A Vonal sikeresen törölve";
     }
 
     public Color createColor(Color color) {
@@ -114,15 +109,10 @@ public class ConfigurationRepository {
         return color;
     }
 
-    public String removeColor(String docID) {
+    public String removeColor(String docID) throws InterruptedException, ExecutionException {
         ApiFuture<WriteResult> future = COLL_REF.document(docID).delete();
-        try {
-            future.get();
-            return "Color successfully deleted!";
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;  
+        future.get();
+        return "Szín sikeresen törölve!"; 
     }
 
     
