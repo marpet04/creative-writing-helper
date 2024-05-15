@@ -16,7 +16,7 @@ import { SettingsComponent } from '../settings/settings.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { MenuGuard } from '../../shared/guards/menu.guard';
 import { NotFoundComponent } from '../not-found/not-found.component';
-import { AihelpComponent } from '../aihelp/aihelp.component';
+import { AianalysisComponent } from '../aianalysis/aianalysis.component';
 
 const routes: Routes = [
   {
@@ -71,7 +71,7 @@ const routes: Routes = [
           canActivate: [AuthGuard]
         },
         {
-          path: 'ai-help', component: AihelpComponent,
+          path: 'ai-analysis', component: AianalysisComponent,
           canActivate: [AuthGuard]
         }
 

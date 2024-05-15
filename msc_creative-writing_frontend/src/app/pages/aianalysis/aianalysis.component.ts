@@ -5,11 +5,11 @@ import { StoryChapter } from 'src/app/shared/models/StoryChapter';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-aihelp',
-  templateUrl: './aihelp.component.html',
-  styleUrl: './aihelp.component.scss'
+  selector: 'app-aianalysis',
+  templateUrl: './aianalysis.component.html',
+  styleUrl: './aianalysis.component.scss'
 })
-export class AihelpComponent implements OnInit{
+export class AianalysisComponent implements OnInit{
 
   chapters: Array<StoryChapter> = [];
 

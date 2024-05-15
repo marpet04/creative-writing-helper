@@ -50,7 +50,7 @@ import { DocEditorComponent } from './pages/doc-editor/doc-editor.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {MatRadioModule} from '@angular/material/radio';
 import { ColorFormDialogComponent } from './pages/character-connections/color-form-dialog/color-form-dialog.component';
-import { AihelpComponent } from './pages/aihelp/aihelp.component';
+import { AianalysisComponent } from './pages/aianalysis/aianalysis.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
@@ -74,7 +74,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     DemoComponent,
     NotFoundComponent,
     ColorFormDialogComponent,
-    AihelpComponent,
+    AianalysisComponent,
     TimelineComponent
   ],
   imports: [

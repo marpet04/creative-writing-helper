@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AihelpComponent } from './aihelp.component';
+import { AianalysisComponent } from './aianalysis.component';
 
-describe('AihelpComponent', () => {
-  let component: AihelpComponent;
-  let fixture: ComponentFixture<AihelpComponent>;
+describe('AianalysisComponent', () => {
+  let component: AianalysisComponent;
+  let fixture: ComponentFixture<AianalysisComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AihelpComponent]
+      imports: [AianalysisComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AihelpComponent);
+    fixture = TestBed.createComponent(AianalysisComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
