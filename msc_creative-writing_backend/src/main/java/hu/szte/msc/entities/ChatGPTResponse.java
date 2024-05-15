@@ -19,7 +19,15 @@ public class ChatGPTResponse {
     public void setChoices(List<Choice> choices) {
         this.choices = choices;
     }
+
+    
 // constructors, getters and setters
+
+    @Override
+    public String toString() {
+        return "ChatGPTResponse [choices=" + choices + "]";
+    }
+
 
     public static class Choice {
 
@@ -41,5 +49,12 @@ public class ChatGPTResponse {
         public void setMessage(Message message) {
             this.message = message;
         }
+
+        @Override
+        public String toString() {
+            return "Choice [index=" + index + ", message=" + message + "]";
+        }
+
+        
     }
 }

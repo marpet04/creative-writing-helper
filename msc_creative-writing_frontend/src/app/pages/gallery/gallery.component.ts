@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { GalleryServiceService } from '../../shared/services/gallery-service.service';
+import { GalleryService} from '../../shared/services/gallery.service';
 import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Gallery, GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { StoryService } from '../../shared/services/story.service';
@@ -27,7 +27,7 @@ export class GalleryComponent implements OnInit {
 
   slides : any[] = [];
 
-  constructor(private http: HttpClient, private galleryService: GalleryServiceService, private gallery: Gallery, private storyService : StoryService, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private galleryService: GalleryService, private gallery: Gallery, private storyService : StoryService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getImages();

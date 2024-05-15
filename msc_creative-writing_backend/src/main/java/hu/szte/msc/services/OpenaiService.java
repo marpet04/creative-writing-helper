@@ -1,5 +1,7 @@
 package hu.szte.msc.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -16,6 +18,8 @@ import hu.szte.msc.entities.ChatGPTResponse;
 @Service
 public class OpenaiService {
 
+    private Logger logger = LoggerFactory.getLogger(OpenaiService.class);
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -28,7 +32,7 @@ public class OpenaiService {
     @Value("${openai.api.key}")
     private String apiKey;
 
-    private static final String CHAT_GPT_FAILED = "The ChatBot cannot answer this!";
+    private static final String CHAT_GPT_FAILED = "Az AI nem tud erre válaszolni!";
 
     public String getOpenaiResponse(String input, String system) throws MessageFailedException {
         ChatGPTRequest chatGPTRequest = new ChatGPTRequest(model, input, system);
@@ -45,7 +49,6 @@ public class OpenaiService {
         // Make HTTP POST request
         HttpEntity<ChatGPTRequest> entity = new HttpEntity<>(chatGPTRequest, headers);
         ResponseEntity<ChatGPTResponse> response = new RestTemplate().postForEntity(requestUrl, entity, ChatGPTResponse.class);
-        //ChatGPTResponse response = restTemplate.postForObject(requestUrl, entity)
 
         String evaulatedResponse = evaluateResponse(response.getBody());
         return evaulatedResponse;
@@ -53,6 +56,7 @@ public class OpenaiService {
 
     private String evaluateResponse(ChatGPTResponse response) throws MessageFailedException {
         checkResponse(response);
+        this.logger.debug(response.getChoices().toString());
         return response.getChoices().get(0).getMessage().getContent();
     }
 

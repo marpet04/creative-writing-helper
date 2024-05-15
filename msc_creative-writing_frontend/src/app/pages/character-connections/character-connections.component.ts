@@ -57,7 +57,7 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
 
   ngAfterViewInit(): void {
     this.iterateCharPos();
-    this.iterateLines();
+    //this.iterateLines();
   }
 
   iterateLines() {
@@ -77,6 +77,7 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
         console.log(p);
         this.setPosition(p.objectId);
       }
+      this.iterateLines();
     });
   }
 

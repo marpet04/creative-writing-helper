@@ -4,6 +4,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { Validators } from 'ngx-editor';
 import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Router } from '@angular/router';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -24,18 +25,5 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.loginForm.value.email!, this.loginForm.value.password!);
-      this.authService.getUser(this.loginForm.value.email!).subscribe((user: any) => {
-        this.sharedData.setUser({
-          username: user.username,
-          email: user.email,
-          id: user.id
-        });
-        console.log({
-          username: user.username,
-          email: user.email,
-          id: user.id
-        });
-        this.router.navigate(['/nav/dashboard']);
-    })
   }
 }

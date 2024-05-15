@@ -22,7 +22,7 @@ public class AIController {
     private String CHAPTER_ANALYSIS = "A kapott üzenetben számold össze a szavak számát (a szóköz legyen a szavakat elválasztó karakter), " +  
     "számítsd ki, hogy mennyi A/4-es oldalnak felelne meg Times New Roman 12-es betűmérettel, 1-szeres sorközzel, " + 
     "és adj egy analízist a kapott fejezetről, ami tartalmazza a lehetséges javításokat, ötleteket." + 
-    "Az ötletek száma ne haladja meg a 3-at és a javítások grammatikai és szerkesztési javaslatok legyenek. A következő formátumban add vissza a választ: " +
+    "Az ötletek száma ne haladja meg a 3-at és alapuljanak arra, hogy pontosan mivel lehetne kibővíteni a cselekményt és a javítások grammatikai és szerkesztési javaslatok legyenek. A következő formátumban add vissza a választ: " +
     "Szavak száma: ... [sortörés], A/4-es oldalak száma: ... [sortörés], Analízis: ... [sortörés] . A válaszban csak ezek legyenek és ne haladja meg a 10 mondatot.";
 
     @PostMapping("/public/char-name")

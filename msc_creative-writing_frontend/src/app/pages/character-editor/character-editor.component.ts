@@ -7,11 +7,13 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ChapterService } from '../../shared/services/chapter.service';
 import { StoryChapter } from '../../shared/models/StoryChapter';
 import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-character-editor',
   templateUrl: './character-editor.component.html',
-  styleUrl: './character-editor.component.scss'
+  styleUrl: './character-editor.component.scss',
+  providers: [DatePipe]
 })
 export class CharacterEditorComponent implements OnInit, OnChanges{
   character: StoryCharacter = {
@@ -31,7 +33,8 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
 
   constructor(private storyCharacterService: StoryCharacterService, 
               private router: Router, private injector: Injector, 
-              private chapterService: ChapterService, private toastr: ToastrService) {
+              private chapterService: ChapterService, private toastr: ToastrService,
+              private datePipe: DatePipe) {
       this.dialogRef = this.injector.get(MatDialogRef, null);
       this.data = this.injector.get(MAT_DIALOG_DATA, null);
   }
@@ -49,11 +52,15 @@ export class CharacterEditorComponent implements OnInit, OnChanges{
 
     this.character.name = this.data?.info?.name ?? '';
     this.character.profession = this.data?.info?.profession ?? '';
-    this.character.birthDate = this.data?.info?.birthDate ?? '';
+    this.character.birthDate = this.data?.info?.birthDate as string ?? '';
     this.character.description = this.data?.info?.description ?? '';
     this.character.docID = this.data?.info?.docID ?? '';
     this.character.chapterID = this.data?.info?.chapterID ?? '';
     this.character.storyID = localStorage.getItem('selectedStoryDocID') ?? undefined;
+  }
+
+  changeDatePicker() {
+    this.character.birthDate = this.datePipe.transform(this.character.birthDate, 'yyyy-MM-dd') || '';
   }
 
     onSubmit(){

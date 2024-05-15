@@ -14,8 +14,6 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-timeline',
-  standalone: true,
-  imports: [CommonModule, DragDropModule, MatExpansionModule, MatButtonModule, MatIconModule],
   templateUrl: './timeline.component.html',
   styleUrl: './timeline.component.scss'
 })

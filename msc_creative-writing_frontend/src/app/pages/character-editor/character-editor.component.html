@@ -12,8 +12,11 @@
                 <input matInput id=profession name=profession [(ngModel)]="character.profession" placeholder="Foglalkozás">
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <input matInput id=birthDate name=birthDate type="date" [(ngModel)]="character.birthDate" placeholder="Születési dátum (YYYY-MM-DD)">
-            </mat-form-field>
+                <mat-label>Születési dátum</mat-label>
+                <input matInput [matDatepicker]="picker" id="birthDate" name="birthDate" [(ngModel)]="character.birthDate" (dateChange)="changeDatePicker()">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
             <mat-form-field appearance="outline">
                 <textarea matInput id=description name=description [(ngModel)]="character.description" placeholder="Egyedi leírás"></textarea>
             </mat-form-field>

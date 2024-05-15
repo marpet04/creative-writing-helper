@@ -74,6 +74,15 @@ export class AuthService {
           console.log(a);
           localStorage.setItem("custom_token", a);
           localStorage.setItem("email", email);
+        }).then(() => {
+          this.getUser(email).subscribe((user: any) => {
+            this.sharedData.setUser({
+              username: user.username,
+              email: user.email,
+              id: user.id
+            });
+              this.router.navigate(['/nav/dashboard']);
+          });
         });
       })
       .catch((error) => {

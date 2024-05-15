@@ -51,6 +51,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {MatRadioModule} from '@angular/material/radio';
 import { ColorFormDialogComponent } from './pages/character-connections/color-form-dialog/color-form-dialog.component';
 import { AihelpComponent } from './pages/aihelp/aihelp.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -72,7 +74,8 @@ import { AihelpComponent } from './pages/aihelp/aihelp.component';
     DemoComponent,
     NotFoundComponent,
     ColorFormDialogComponent,
-    AihelpComponent
+    AihelpComponent,
+    TimelineComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +100,6 @@ import { AihelpComponent } from './pages/aihelp/aihelp.component';
     ColorPickerModule,
     NgxLeaderLineModule,
     MatExpansionModule,
-    TimelineComponent,
     NgxLeaderLineModule,
     //AngularFireModule.initializeApp(environment.firebaseConfig),
     //AngularFireAuthModule,
@@ -105,9 +107,10 @@ import { AihelpComponent } from './pages/aihelp/aihelp.component';
     provideAuth(() => getAuth()),
     ToastrModule.forRoot(),
     DocEditorComponent,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, provideNativeDateAdapter()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

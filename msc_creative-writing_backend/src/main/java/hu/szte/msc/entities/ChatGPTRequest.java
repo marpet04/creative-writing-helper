@@ -54,4 +54,12 @@ public class ChatGPTRequest {
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
+
+    @Override
+    public String toString() {
+        return "ChatGPTRequest [model=" + model + ", messages=" + messages + ", n=" + n + ", temperature=" + temperature
+                + ", max_tokens=" + max_tokens + ", system=" + system + "]";
+    }
+
+    
 }
