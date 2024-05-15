@@ -48,7 +48,7 @@ export class SidenavComponent implements OnInit, OnChanges{
         {
           icon: 'help',
           label: 'Ihletnyerő',
-          route: 'ai-help'
+          route: 'ai-analysis'
         }
       ]
     },
