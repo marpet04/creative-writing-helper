@@ -20,8 +20,5 @@ public class Image {
     public Image(String fileName, String url) {
         this.fileName = fileName;
         this.url = url;
-    }
-
-    
-    
+    }   
 }

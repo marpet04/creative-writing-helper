@@ -197,7 +197,7 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
           let j = 0;
           for(let o of this.linesOnBoard) {
             if (o.start == start && o.end == end) {
-              this.linesOnBoard.splice(i, 1);
+              this.linesOnBoard.splice(j, 1);
               console.log(o);
               console.log(this.linesOnBoard);
               this.linesToBeDeleted.push({
@@ -322,9 +322,6 @@ export class CharacterConnectionsComponent implements OnChanges, AfterViewInit, 
     this.showSuccess('Karakterek pozíciói elmentve!');
 
     this.tempCharacterObjectPositions = new Map<string, CharacterObject>();
-    this.leaderlines.forEach((line) => {
-      line.remove();
-    });
     this.characterObjectPositions = new Map<string, CharacterObject>();
     this.goBack();
   }

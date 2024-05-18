@@ -8,7 +8,6 @@ public class StoryCharacter {
     private String profession;
     private String birthDate;
     private String description;
-    private String author;
 
     public String getDocID() {
         return docID;
@@ -66,16 +65,8 @@ public class StoryCharacter {
         this.chapterID = chapterID;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public StoryCharacter(String docID, String name, String storyID, String chapterID, String profession,
-            String birthDate, String description, String author) {
+            String birthDate, String description) {
         this.docID = docID;
         this.name = name;
         this.storyID = storyID;
@@ -83,7 +74,6 @@ public class StoryCharacter {
         this.profession = profession;
         this.birthDate = birthDate;
         this.description = description;
-        this.author = author;
     }
 
     public StoryCharacter() {
